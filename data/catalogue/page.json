@@ -1,0 +1,17 @@
+[
+    {
+        "key":"work",
+        "title":"作品集/项目经验",
+        "file":"work.json"
+    },
+    {
+        "key":"blog",
+        "title":"个人博客",
+        "file":"blog.json"
+    },
+    {
+        "key":"note",
+        "title":"个人笔记",
+        "file":"note.json"
+    }
+]
