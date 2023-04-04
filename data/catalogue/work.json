@@ -1,31 +1,99 @@
 [
     {
         "key":"index",
-        "label":"index",
-        "file":"work_index.md"
+        "label":"作品集",
+        "file":"index.md"
     },
     {
-        "key":"work-1",
-        "label":"group 1",
+        "key":"work-real",
+        "label":"真实项目",
+        "children":[
+            
+        ],
+        "icon":null,
+        "type":"group"
+    },
+    {
+        "key":"work-school",
+        "label":"校内项目",
         "children":[
             {
-                "key":"work-1-1",
-                "label":"web课程笔记",
-                "file":"note_web.md"
+                "key":"work-school-jtxt",
+                "label":"校园智能交通系统",
+                "file":"智能交通系统.md"
+            },
+            {
+                "key":"work-school-stwz",
+                "label":"游戏开发社团网站",
+                "file":"游戏社团网站.md"
+            },
+            {
+                "key":"work-school-sf",
+                "label":"雪原信息预测系统",
+                "file":"雪原信息分析预测系统.md"
+            }
+
+        ],
+        "icon":null,
+        "type":"group"
+    },
+    {
+        "key":"work-web",
+        "label":"web小作品",
+        "children":[
+            {
+                "key":"work-web-reactgrwy",
+                "label":"react可复用个人网站",
+                "file":"react可复用个人网站.md"
+            },
+            {
+                "key":"work-web-vuegrwy",
+                "label":"vue个人网站（已弃用）",
+                "file":"vue个人网站.md"
+            },
+            {
+                "key":"work-web-sysj",
+                "label":"实验数据处理网页",
+                "file":"实验数据处理网页.md"
             }
         ],
         "icon":null,
         "type":"group"
     },
     {
-        "key":"work-2",
-        "label":"group 2",
+        "key":"work-game",
+        "label":"game小作品",
         "children":[
             {
-                "key":"work-2-1",
-                "label":"ES6笔记",
-                "file":"note_es6.md"
+                "key":"work-game-g2d",
+                "label":"Unity2D动作游戏",
+                "file":"Unity2D动作游戏.md"
+            },
+            {
+                "key":"work-game-javapt",
+                "label":"java多阶拼图",
+                "file":"java多阶拼图.md"
             }
+
+        ],
+        "icon":null,
+        "type":"group"
+    },
+    {
+        "key":"work-else",
+        "label":"其他作品",
+        "children":[
+            {
+                "key":"work-else-g2d",
+                "label":".Net图书管理系统",
+                "file":".NET图书管理系统.md"
+            },
+            {
+                "key":"work-else-javapt",
+                "label":"C学生成绩管理系统",
+                "file":"C学生成绩管理系统.md"
+            }
+
         ],
         "icon":null,
         "type":"group"
