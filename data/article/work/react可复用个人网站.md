@@ -1,6 +1,10 @@
 # React可复用个人网站
 
+github仓库地址：https://github.com/abc2513/CFPersonalWebsite
 
+基本DEMO展示：https://abc2513.github.io/CFPersonalWebsite/demo/
+
+发起人网站展示：https://abc2513.github.io/
 
 本项目于2023/3/29（笔者大二春季学期）提出，目标是开发一款易用性好、复用性高、页面优美的个人作品集展示网站。
 
