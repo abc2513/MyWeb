@@ -2,7 +2,7 @@
 
 ## 简要手册
 
-```
+```bash
 #将代码上传到master分支（旧）
 1.git init       //工作空间创建.git文件夹（默认隐藏了该文件夹）
 2.git add .      //添加到暂存区
@@ -23,6 +23,16 @@
 5.git pull --rebase origin main  //远程有readme.md，拉一下
 6.git push -u origin main        //代码合并
 ```
+
+master
+
+```bash
+git remote add origin git@github.com:xxxx/xxx.git
+git branch -M master
+git push -u origin master
+```
+
+
 
 ## 1 概述
 

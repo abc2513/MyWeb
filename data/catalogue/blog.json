@@ -11,17 +11,22 @@
             {
                 "key":"blog-se-lab1",
                 "label":"软构lab1",
-                "file":"index.md"
+                "file":"HIT_SC_lab1.md"
             },
             {
                 "key":"blog-se-lab2",
                 "label":"软构lab2",
-                "file":"index.md"
+                "file":"HIT_SC_lab2.md"
+            },
+            {
+                "key":"blog-se-lab2-1",
+                "label":"测试断言",
+                "file":"HIT_SC_lab2断言.md"
             },
             {
                 "key":"blog-se-lab3",
                 "label":"软构lab3",
-                "file":"index.md"
+                "file":"HIT_SC_lab3.md"
             }
         ],
         "icon":null,

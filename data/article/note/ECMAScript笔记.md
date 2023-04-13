@@ -155,13 +155,116 @@ fun(object);
 
 
 
-#### rest参数【】
+#### rest参数
 
+ES6引入rest参数用于获取实际参数
 
+ES5获取实参的方法：函数中直接使用arguments
+
+```js
+function date(){
+    console.log(arguments)
+}
+data("1","2");//输出对象
+```
+
+ES6rest
+
+```js
+function date(...args){
+    console.log(args);
+}
+data("1","2");//输出数组
+```
+
+rest必须放最后
 
 #### 扩展运算符
 
+...将数组转化为逗号分隔的参数序列
+
+数组合并
+
 ```js
 let arr1=[1,2]
+let arr2=[3,4]
+let arr=[...arr1,...arr2]
 ```
+
+数组克隆
+
+```js
+/
+```
+
+伪数组转化为数组
+
+```js
+const div=document.querySelectorAll("div");
+arguments
+```
+
+#### Symbol
+
+创建唯一的对象
+
+```js
+let s1=Symbol('abc')
+let s2=Symbol('abc')
+console.log(a1==s2)//false
+```
+
+
+
+```js
+Symbol();
+Symbol("xxx");
+Symbol.for("xxx");
+```
+
+![image-20230405093511995](ECMAScript笔记.assets/image-20230405093511995.png)
+
+##### Symbol的内置属性【】
+
+#### 迭代器Interator
+
+接口，为不同数据结构提供统一的访问机制
+
+
+
+![image-20230405094404589](ECMAScript笔记.assets/image-20230405094404589.png)
+
+
+
+
+
+![image-20230405095357657](ECMAScript笔记.assets/image-20230405095357657.png)
+
+
+
+##### 自定义【】
+
+
+
+
+
+#### 生成器函数
+
+异步编程
+
+
+
+```js
+function * gen(){
+    
+}
+```
+
+
+
+
+
+
+
+
 

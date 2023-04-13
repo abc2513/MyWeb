@@ -6,27 +6,12 @@
     },
     {
         "key":"note-web",
-        "label":"Web开发",
+        "label":"Web前端",
         "children":[
             {
-                "key":"note-web-es6",
-                "label":"ES6笔记",
-                "file":"ECMAScript笔记.md"
-            },
-            {
-                "key":"note-web-javaweb",
-                "label":"javaweb学习笔记",
-                "file":"javaweb学习笔记.md"
-            },
-            {
-                "key":"note-web-react",
-                "label":"react学习笔记",
-                "file":"react笔记.md"
-            },
-            {
-                "key":"note-web-vue",
-                "label":"vue学习笔记",
-                "file":"vue学习笔记.md"
+                "key":"note-web-scss",
+                "label":"CSS进阶和Sass",
+                "file":"Sass学习笔记.html"
             },
             {
                 "key":"note-web-pro",
@@ -34,8 +19,37 @@
                 "file":"Promise笔记.md"
             },
             {
-                "key":"note-web-node",
-                "label":"Node学习笔记",
+                "key":"note-web-es6",
+                "label":"ES6笔记（未",
+                "file":"ECMAScript笔记.md"
+            },
+            {
+                "key":"note-web-react",
+                "label":"react学习笔记（略",
+                "file":"react笔记.md"
+            },
+            {
+                "key":"note-web-vue",
+                "label":"vue学习笔记（略",
+                "file":"vue学习笔记.md"
+            }
+            
+        ],
+        "icon":null,
+        "type":"group"
+    },
+    {
+        "key":"note-web2",
+        "label":"Web后端",
+        "children":[
+            {
+                "key":"note-web2-mysql",
+                "label":"MySQL笔记",
+                "file":"MySQL笔记.md"
+            },
+            {
+                "key":"note-web2-node",
+                "label":"Node学习笔记（略",
                 "file":"NodeJS.md"
             }
         ],
@@ -47,6 +61,11 @@
         "label":"其他",
         "children":[
             {
+                "key":"note-else-git",
+                "label":"git学习笔记",
+                "file":"git学习笔记.md"
+            },
+            {
                 "key":"note-else-md",
                 "label":"Markdown笔记",
                 "file":"Markdown笔记.md"
@@ -55,6 +74,11 @@
                 "key":"note-else-java",
                 "label":"java学习笔记",
                 "file":"java学习笔记.md"
+            },
+            {
+                "key":"note-else-zz",
+                "label":"正则表达式笔记",
+                "file":"正则表达式笔记.md"
             }
         ],
         "icon":null,

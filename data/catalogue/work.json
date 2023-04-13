@@ -6,7 +6,7 @@
     },
     {
         "key":"work-real",
-        "label":"真实项目",
+        "label":"企业项目",
         "children":[
             
         ],
@@ -39,12 +39,22 @@
     },
     {
         "key":"work-web",
-        "label":"web小作品",
+        "label":"web作品/练习",
         "children":[
             {
                 "key":"work-web-reactgrwy",
                 "label":"react可复用个人网站",
                 "file":"react可复用个人网站.md"
+            },
+            {
+                "key":"work-web-weatherapp",
+                "label":"react天气预报网站",
+                "file":"发条花天气.html"
+            },
+            {
+                "key":"work-web-Navtours",
+                "label":"虚拟旅游公司首页（Sass练习）",
+                "file":"虚拟旅游公司首页.html"
             },
             {
                 "key":"work-web-vuegrwy",
