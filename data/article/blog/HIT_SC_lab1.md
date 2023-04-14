@@ -1,17 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-
-
-![image-20230303111848249](HIT_SC_lab1.assets/9ePyxfh3LbjqlG7.png)
-
 ## HIT软件构造2023年春Lab1 Turtle Graphics (MIT)
 
 理解：题目提供了绘制图形轨迹的代码集，我们需要按要求对其中`TurtleSoup.java`的几个方法进行方法体的编写
@@ -154,3 +142,16 @@ for(int i=1;i<200;i++){
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+![image-20230303111848249](HIT_SC_lab1.assets/9ePyxfh3LbjqlG7.png)

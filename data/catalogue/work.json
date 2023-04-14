@@ -47,14 +47,14 @@
                 "file":"react可复用个人网站.md"
             },
             {
-                "key":"work-web-weatherapp",
-                "label":"react天气预报网站",
-                "file":"发条花天气.html"
-            },
-            {
                 "key":"work-web-Navtours",
                 "label":"虚拟旅游公司首页（Sass练习）",
                 "file":"虚拟旅游公司首页.html"
+            },
+            {
+                "key":"work-web-weatherapp",
+                "label":"react天气预报网站",
+                "file":"发条花天气.html"
             },
             {
                 "key":"work-web-vuegrwy",
@@ -97,6 +97,11 @@
                 "key":"work-else-g2d",
                 "label":".Net图书管理系统",
                 "file":".NET图书管理系统.md"
+            },
+            {
+                "key":"work-else-sysj",
+                "label":"实验数据处理APP",
+                "file":"实验数据处理APP网页.md"
             },
             {
                 "key":"work-else-javapt",

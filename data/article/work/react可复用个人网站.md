@@ -4,9 +4,23 @@ github仓库地址：https://github.com/abc2513/CFPersonalWebsite
 
 基本DEMO展示：https://abc2513.github.io/CFPersonalWebsite/demo/
 
-发起人网站展示：https://abc2513.github.io/
+笔者网站展示：https://abc2513.github.io/
 
 本项目于2023/3/29（笔者大二春季学期）提出，目标是开发一款易用性好、复用性高、页面优美的个人作品集展示网站。
+
+### 更新
+
+v0.4 
+
+2023/4/14 优化MD文件读取方式，需要将md读取器放到每个文章目录下，但解决了md文件路径问题
+
+2023/4/4 修复BUG：转移页面瞬间仍尝试显示原来的文件
+
+v0.3 实现PDF文件和HTML文件显示
+
+v0.2 优化目录数据结构，优化文件结构
+
+v0.1 实现基本结构，能够识别目录、显示md
 
 ### 架构说明
 
@@ -20,11 +34,11 @@ github仓库地址：https://github.com/abc2513/CFPersonalWebsite
 
 #### 桌面端应用
 
-单页面网络应用，使用Ant Design组件库
+单页面网络应用，使用Ant Design组件库（已完成）
 
 #### 移动端应用
 
-单页面网络应用，使用Ant Design Mobile组件库
+单页面网络应用，使用Ant Design Mobile组件库（计划中）
 
 ### 文件说明
 
@@ -129,11 +143,15 @@ key是识别不同内容的唯一标识，除了index以外所有的key不能重
 
 ###### 数据说明
 
-目前支持的文件类型有markdown、html、pdf 。==注意！展示内容中通过引用的内容（比如md中的本地图片，html中的css/js）需要考虑路径问题。相对路径是当前路径的需要将被引用文件需要移动到项目根目录；外部引用的资源需要注意是否配置了CORS==
+目前支持的文件类型有markdown、html、pdf 。
 
 ###### 位置
 
 `/data/article/page的key名/展示内容文件`
 
+###### ==安装md阅读器==
 
+请将`/lab/md-reader/`下的所有文件复制到`/data/article/page的key名/`下。
+
+（由于一些路径问题，不得不采取这样的实现方式）
 
