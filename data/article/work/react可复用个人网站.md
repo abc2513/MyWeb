@@ -8,6 +8,8 @@ github仓库地址：https://github.com/abc2513/CFPersonalWebsite
 
 本项目于2023/3/29（笔者大二春季学期）提出，目标是开发一款易用性好、复用性高、页面优美的个人作品集展示网站。
 
+![image-20230414185157586](react可复用个人网站.assets/image-20230414185157586.png)
+
 ### 更新
 
 v0.4 

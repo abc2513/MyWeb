@@ -32,6 +32,11 @@
                 "key":"note-web-es6",
                 "label":"ES6笔记",
                 "file":"ECMAScript笔记.md"
+            },
+            {
+                "key":"note-web-webpack",
+                "label":"webpack笔记",
+                "file":"webpack笔记.md"
             }
         ],
         "icon":null,

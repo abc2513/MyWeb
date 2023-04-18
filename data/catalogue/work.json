@@ -57,6 +57,11 @@
                 "file":"发条花天气.html"
             },
             {
+                "key":"work-web-3dcity",
+                "label":"在网页中渲染3d模型",
+                "file":"3Dcity.md"
+            },
+            {
                 "key":"work-web-vuegrwy",
                 "label":"vue个人网站（已弃用）",
                 "file":"vue个人网站.md"

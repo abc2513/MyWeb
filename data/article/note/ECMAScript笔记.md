@@ -250,21 +250,407 @@ Symbol.for("xxx");
 
 #### 生成器函数
 
-异步编程
+异步编程解决方案
 
+##### 语法
 
+声明
 
 ```js
-function * gen(){
-    
+function * xxxfun(){
+    console.log('xxx')
 }
+```
+
+执行
+
+```js
+let i=xxxfun();
+i.next();
+```
+
+返回一个迭代器对象，需要调用next方法才能执行代码
+
+##### yield分隔符
+
+函数代码的分隔符
+
+```js
+function * xxxfun(){
+    console.log('xxx');
+    yield '1';
+    console.log('xxx');
+    yield '2';
+    console.log('xxx');
+    yield '3';
+}
+let i=xxxfun();
+i.next();//next返回的是yeild的内容
+i.next();
+i.next();
+```
+
+##### 用迭代器遍历调用
+
+![image-20230414142436248](ECMAScript笔记.assets/image-20230414142436248.png)
+
+##### 参数传递
+
+1、获取迭代器对象时传递
+
+2、调用next方法时传递
+
+```js
+function * xxxfun(arg){
+    
+    console.log(arg);
+    //第一次调用next执行到这里
+    let one = yield 'y1';
+    console.log(one);
+    //--
+    let two = yield 'y2';
+    console.log(two);
+    //--
+    let three = yield 'y3';
+    console.log(three);
+    //--
+}
+let i=xxxfun();
+i.next();
+i.next(2);//第二次调用时传入的参数，将作为第一个yield的返回结果
+i.next(3);
+i.next(4);
 ```
 
 
 
+回调实现的异步
+
+```js
+setTimeout(()=>{
+    console.log(1);
+    setTimeout(()=>{
+        sonsole.log(2);
+        setTimeout(()=>{
+            sonsole.log(3);
+        },3000)
+    },2000)
+},1000)
+```
+
+
+
+```js
+//声明异步函数
+function first(){
+    setTimeout(()=>{},1000);
+}
+function second(){
+    setTimeout(()=>{},2000);
+}
+function third(){
+    setTimeout(()=>{},3000);
+}
+//声明生成器函数
+function * gen(){
+    yield first();
+    yidld second();
+    yidld three();
+}
+//获取迭代器
+var iterator=gen();
+iterator.next();//执行异步函数
+iterator.next();
+iterator.next();
+```
+
+
+
+连续调用
+
+```js
+function getUser(){
+    setTimeout(()=>{
+        let data='user';
+        interator.next(data);
+    },1000)
+}
+function getOrder(){
+    setTimeout(()=>{
+        let data='order';
+        interator.next(data);
+    },1000)
+}
+function getGoods(){
+    setTimeout(()=>{
+        let data='good';
+        interator.next(data);
+    },1000)
+}
+function * gen(){
+    let users= yi
+}
+```
+
+![image-20230414145826847](ECMAScript笔记.assets/image-20230414145826847.png) 
 
 
 
 
 
+#### Promise
+
+异步编程的新解决方案，用来封装异步操作的 构造函数
+
+
+
+```js
+//实例化Promise对象
+const p=new Promise((resolve,reject)=>{
+    //进行异步操作
+    //setTimeout
+    
+    //成功
+    resolve('返回数据')
+    //失败
+    reject('失败原因')
+})
+p.then((value)=>{},(reason)=>{}).catch((err)=>{})
+```
+
+
+
+##### promise.prototype.then()方法
+
+```js
+//实例化Promise对象
+const p=new Promise((resolve,reject)=>{
+    //进行异步操作
+    //setTimeout
+    
+    //成功
+    resolve('返回数据')
+    //失败
+    reject('失败原因')
+})
+p.then((value)=>{
+    return 123;//返回非Promise对象，则promise.prototype的返回为值为123的Promise成功对象
+    return new Promise((resolve,reject)=>{
+        resolve()//返回Promise对象，则promise.prototype的返回为该值、成败状态的Promise对象
+        //reject()
+    })
+},(reason)=>{})
+
+```
+
+##### 链式调用
+
+```js
+p.then((value)=>{
+    return new Promise((resolve,reject)=>{...})
+}).then((value)=>{
+    return new Promise((resolve,reject)=>{...})
+}).then((value)=>{
+    return new Promise((resolve,reject)=>{...})
+})
+```
+
+##### catch方法
+
+略
+
+
+
+#### 集合【】
+
+#### class【】
+
+#### 数值扩展
+
+##### 0、Number.EPSILON
+
+表示JavaScript表示的最小精度，用来浮点数的比较
+
+```js
+```
+
+![image-20230414152943063](ECMAScript笔记.assets/image-20230414152943063.png)
+
+
+
+##### 1、二进制和八进制
+
+```js
+let b =0b10101;//0b开头
+let o =0o777;//0o开头
+let d =100;//直接写
+let x=0xff;//十六进制
+```
+
+
+
+##### 2、检测是否为有限数
+
+
+
+![image-20230414153227736](ECMAScript笔记.assets/image-20230414153227736.png)
+
+
+
+##### 3、检测是否为数值
+
+![image-20230414153319569](ECMAScript笔记.assets/image-20230414153319569.png)
+
+
+
+##### 4、字符串转数字
+
+会截断非数字
+
+![image-20230414153418444](ECMAScript笔记.assets/image-20230414153418444.png)
+
+
+
+
+
+##### 5、是否为整数
+
+![image-20230414153442977](ECMAScript笔记.assets/image-20230414153442977.png)
+
+
+
+##### 6、抹去小数位
+
+![image-20230414153502851](ECMAScript笔记.assets/image-20230414153502851.png)
+
+
+
+##### 7、判断正负和0
+
+返回1、-1、0
+
+![image-20230414153537653](ECMAScript笔记.assets/image-20230414153537653.png)
+
+
+
+#### 对象方法拓展
+
+##### 1、判断两个值是否相等
+
+![image-20230414154059696](ECMAScript笔记.assets/image-20230414154059696.png)
+
+##### 2、合并对象
+
+如果有相同的属性，后面会覆盖前面
+
+![image-20230414154110314](ECMAScript笔记.assets/image-20230414154110314.png)
+
+
+
+##### 3、设置/获取原型对象
+
+![image-20230414154650546](ECMAScript笔记.assets/image-20230414154650546.png)
+
+
+
+#### 模块化
+
+
+
+优点：防止命名冲突、代码复用性、高可维护性
+
+以前的模块化规范：CommonJS、AMD、CMD（JS自己没有，靠社区推出）
+
+![image-20230414155134151](ECMAScript笔记.assets/image-20230414155134151.png)
+
+##### 导出模块语法
+
+分别暴露
+
+```js
+export let a=xxx;
+export function b(){}
+```
+
+统一暴露
+
+```js
+let a=xxx;
+function b(){};
+export {a,b};
+```
+
+默认暴露
+
+```js
+export default {}//对象居多
+```
+
+##### 导入模块语法
+
+通用方式
+
+```js
+import * as m1 from "./xxx.js"
+//m1.default
+//m1.a
+```
+
+解构赋值
+
+```js
+import {a,b} from './xxx.js'
+import {a as c,d} from './yyy.js';//使用别名解决同名冲突
+import {default m3} from './xxx.js'
+```
+
+简便形式
+
+只能用于默认暴露
+
+```js
+import 要保存的变量名 from './xxx.js'
+```
+
+##### 浏览器使用模块化
+
+缺点：浏览器兼容性、不一定能导入npm安装的包
+
+```html
+<script type="module">
+	import * as m1 from "./xxx.js"
+    console.log(m1)
+</script>
+```
+
+```html
+<script type="module" src="../main.js"></script>
+```
+
+
+
+##### Babel
+
+处理模块，转化为浏览器能识别的js
+
+安装工具：命令行工具，预设包，打包工具（browserify、webpack）
+
+```bash
+npm i babel-cli babel-preset-env browserify -D
+```
+
+`-D `表示开发依赖
+
+
+
+运行
+
+```bash
+npx babel src/js dist/js --preset=babel-preset-env
+#源目录 输出目录 预设
+```
+
+###### 打包【】
+
+https://www.bilibili.com/video/BV1uK411H7on?p=46
 
