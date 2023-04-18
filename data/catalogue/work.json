@@ -99,17 +99,17 @@
         "label":"其他作品",
         "children":[
             {
-                "key":"work-else-g2d",
+                "key":"work-else-net",
                 "label":".Net图书管理系统",
                 "file":".NET图书管理系统.md"
             },
             {
                 "key":"work-else-sysj",
                 "label":"实验数据处理APP",
-                "file":"实验数据处理APP网页.md"
+                "file":"实验数据处理APP.md"
             },
             {
-                "key":"work-else-javapt",
+                "key":"work-else-c",
                 "label":"C学生成绩管理系统",
                 "file":"C学生成绩管理系统.md"
             }
