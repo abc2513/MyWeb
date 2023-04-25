@@ -26,6 +26,7 @@
                 }
             }
             if(url=geturl()){
+                console.log(url)
                 axios.get("./"+url)
                 .then((res)=>{contenter.innerHTML=marked.parse(res.data)})
                 .catch((err)=>{contenter.innerText=err})

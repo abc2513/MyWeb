@@ -12,7 +12,7 @@ vscode插件：Emmet、color hightlight
 
 # 第一部分 
 
-知识点：渐变、伪类、伪元素、动画、CSS解析原理、级联（CSS冲突）、相对单位、强制继承、定位、Sass、Sass文件架构、变量、嵌套、混入、函数、拓展、剪辑、背景剪辑、响应式设计、网格布局、变换、兄弟元素选择器、子一代元素选择器、变换、视频背景、图片滤镜、背景滤镜、Sass颜色函数、媒体查询、响应式图像、渐变、calc函数、透视、形状、纯色渐变、光标、堆叠
+知识点：渐变、伪类、伪元素、动画、CSS解析原理、级联（CSS冲突）、相对单位、强制继承、定位、Sass、Sass文件架构、变量、嵌套、混入、函数、拓展、剪辑、背景剪辑、响应式设计、网格布局、变换、兄弟元素选择器、子一代元素选择器、变换、视频背景、图片滤镜、背景滤镜、Sass颜色函数、媒体查询、响应式图像、渐变、calc函数、透视、形状、纯色渐变、光标、堆叠。包含剪辑、转换、动画、背景视频这些现代css属性
 
 ## 速查手册
 
@@ -1845,13 +1845,11 @@ hover:hover
 
 
 
-# 第二部分
+# 第二部分 弹性布局
 
-## 弹性盒子Flexbox
+### 弹性盒子Flexbox
 
-
-
-
+#### 基本属性
 
 ![image-20230413181554975](Sass学习笔记.assets/image-20230413181554975.png)
 
@@ -1861,22 +1859,39 @@ hover:hover
 
 ![image-20230413181958457](Sass学习笔记.assets/image-20230413181958457.png)
 
+#### 基本使用
+
+父元素（弹性盒子）
+
+```scss
+display:flex;//弹性布局
+align-items: center;//沿交叉轴居中
+justify-content: center;//沿主轴居中
+flex-direction: column;//改变主轴方向
+flex-warp:warp;//空间不足时运行换行
+```
+
+子元素（弹性项目）
+
+```scss
+flex: 0 0 40%;//扩大 缩小 宽度
+flex:1;//尽可能的扩大，占据所有可用空间
+margin_right:auto;//将所有可用空间在该项目的右侧留白
+align-self: stretch;//覆盖了父元素的align-item: center
+```
 
 
- 
 
-# 现代CSS技术：剪辑、转换、动画、背景视频
 
-#### CSS自定义属性（变量）
+
+### CSS自定义属性（变量）
 
 - 优势：不需要被编译，可以在JS中操作
 - 作用域：当前选择器选中元素及其子元素
-- 通常写在根伪类中
+- 通常写在==根伪类==中
 
 ```css
 :root{//根伪类
-
-
     --grey-dark-1: #333;
     --grey-dark-2: #777;
     --grey-dark-3: #999;
@@ -1886,7 +1901,224 @@ body{
 }
 ```
 
+### SVG图标
+
+相对于字体图标的优点：更容易定位、控制大小
+
+下载：https://icomoon.io/
+
+使用包含多个图标的精灵svg：
+
+```html
+<svg class="user-nav-icon">
+    <use xlink:href="img/sprite.svg#icon-chat"></use>
+</svg>
+```
+
+#### 填充颜色
+
+```scss
+fill: var(--color-primary);
+```
 
 
-SVG对齐
 
+
+
+### 按钮动画
+
+```scss
+.btn-inline{
+    border: none;
+    color:var(--color-primary);
+    font-size: inherit;
+    border-bottom: 1px solid currentColor;//和文本拥有相同颜色（color属性）
+    padding-bottom: 2px;
+    display: inline-block;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all .2s;
+    //font-size: 1.6rem;
+    &:hover{
+        color: var(--color-primary-dark);
+    }
+    &:active{
+        outline: none;
+        animation: pulsate .5s infinite;//无限次的动画
+    }
+}
+
+@keyframes pulsate{
+    0%{
+        transform: scale(1);
+        box-shadow: none;
+    }
+    50%{
+        transform: scale(1.05);
+        box-shadow: 0 1rem 4rem rgba(0,0,0,.25);
+    }
+    100%{
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+```
+
+#### 向右跃动的箭头
+
+##### 循环动画
+
+```scss
+span{
+            animation: right-jump .5s infinite;
+        }
+```
+
+
+
+### 自定义列表图标
+
+```scss
+.list{
+    margin: 3rem 0;
+    list-style: none;
+    padding: 3rem;
+    border-top: var(--line);
+    border-bottom: var(--line);
+    //columns: 2;
+    //使用flex
+    display: flex;
+    flex-wrap: wrap;//允许元素换行
+    &-item{
+        flex: 0 0 50%;//代替width
+        margin-bottom: .7rem;
+        &::before{//自定义列表图标
+            content: '';//一定要写，不然不显示
+            display: inline-block;
+            height: 1rem;
+            width: 1rem;
+            margin-right: .7rem;
+
+            //旧浏览器
+            // background-image: url(../img/chevron-thin-right.svg);
+            // background-size: cover;
+            //支持masks属性的浏览器
+            //将图标作为蒙板
+            background-color: var(--color-primary);
+            -webkit-mask-image: url(../img/chevron-thin-right.svg);
+            -webkit-mask-size: cover;
+            //为未来其他浏览器适配
+            mask-image: url(../img/chevron-thin-right.svg);
+            mask-size: cover;
+        }
+    }
+}
+```
+
+
+
+#### 背景图片（不能改变颜色）
+
+```scss
+//旧浏览器
+background-image: url(../img/chevron-thin-right.svg);
+background-size: cover;
+```
+
+
+
+#### 背景颜色+使用svg作为蒙版（现代）
+
+```scss
+//支持masks属性的浏览器
+//将图标作为蒙板
+background-color: var(--color-primary);
+-webkit-mask-image: url(../img/chevron-thin-right.svg);
+-webkit-mask-size: cover;
+//为未来其他浏览器适配
+mask-image: url(../img/chevron-thin-right.svg);
+mask-size: cover;
+```
+
+
+
+### 头像列表
+
+```scss
+.recommend{
+    font-size: 1.3rem;
+    color: var(--color-grey-dark-3);
+    display: flex;
+    align-items: center;
+    justify-content:space-between;//左右分开
+    &-photo{
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-sizing: content-box;
+        //盒子的尺寸默认包含填充和边框进入元素的宽度和高度
+        //使用box-sizing: content-box;来使边框添加到原来的尺寸上
+        &:not(:last-child){
+            margin-right: -1.15rem;//部分重叠效果
+        }
+    }
+}
+```
+
+#### box-sizing的细节
+
+ ```scss
+  box-sizing: content-box;
+         //盒子的尺寸默认包含填充和边框进入元素的宽度和高度
+         //使用box-sizing: content-box;来使边框添加到原来的尺寸上
+ ```
+
+
+
+### 引用内容
+
+##### html元素
+
+```html
+<!-- figure 使用文字和描述 -->
+<figure class="review">
+    <!-- 块级引用元素 -->
+    <blockquote class="review-text">
+```
+
+
+
+##### 巨大的引号
+
+```scss
+.review{
+    &::before{//巨大的引号背景
+        content: "“";//\201C
+        position: absolute;
+        top: -2rem;
+        left: -1rem;
+        font-size: 20rem;
+        color: var(--color-grey-light-3);
+        font-family: sans-serif;
+        line-height: 1;
+        z-index: 1;//z-index只有设置了定位才会生效
+    }
+    position: relative;
+}
+```
+
+
+
+##### z-index要定位才能生效！
+
+```scss
+z-index: 10;
+position: relative;//z-index只有设置了定位才会生效
+```
+
+### 媒体查询
+
+策略：在设计失效的位置设置断点
+
+弹性盒子：通常可以改变主轴方向来实现一定的适配

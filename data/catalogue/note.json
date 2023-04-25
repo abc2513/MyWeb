@@ -29,6 +29,11 @@
                 "file":"react笔记.md"
             },
             {
+                "key":"note-web-redux",
+                "label":"redux学习笔记",
+                "file":"Redux学习笔记.md"
+            },
+            {
                 "key":"note-web-es6",
                 "label":"ES6笔记",
                 "file":"ECMAScript笔记.md"

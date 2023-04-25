@@ -62,6 +62,11 @@
                 "file":"3Dcity.md"
             },
             {
+                "key":"work-web-rgsn",
+                "label":"燃果韶能系统前端",
+                "file":"燃果韶能系统.md"
+            },
+            {
                 "key":"work-web-vuegrwy",
                 "label":"vue个人网站（已弃用）",
                 "file":"vue个人网站.md"
@@ -101,7 +106,7 @@
             {
                 "key":"work-else-net",
                 "label":".Net图书管理系统",
-                "file":".NET图书管理系统.md"
+                "file":"NET图书管理系统.md"
             },
             {
                 "key":"work-else-sysj",

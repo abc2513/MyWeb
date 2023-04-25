@@ -1,6 +1,68 @@
-# React笔记
+# React学习笔记
+
+## 一、类式组件
+
+#### state属性
+
+#### props属性
+
+#### ref属性
+
+组件内的标签，可以用来标识自己
 
 
+
+###### 字符串形式
+
+存在效率问题，不推荐使用
+
+```jsx
+<input placeholder='name' ref="input1"></input>
+```
+
+在`组件实例.refs.xxxf`访问
+
+```js
+const {input1}=this.refs
+```
+
+###### 回调函数形式
+
+函数：将当前节点写到组件实例上
+
+```jsx
+<input placeholder='email' ref={ currentNode =>{this.input2=currentNode} }></input>
+```
+
+回调执行次数问题：
+
+![image-20230425200543051](react笔记.assets/image-20230425200543051.png)
+
+###### 使用createRef
+
+（ref最新api）
+
+获取ref容器
+
+```js
+input1=React.createRef();
+```
+
+绑定节点
+
+```jsx
+<input placeholder='name' ref={this.input1}></input>
+```
+
+读取数据
+
+```js
+this.input1.current.value
+```
+
+
+
+## 二、应用
 
 ### 脚手架
 
@@ -15,10 +77,6 @@ npm i -g create-react-app
 ```
 create-react-app 项目名
 ```
-
-
-
-
 
 #### 脚手架配置代理
 
@@ -47,9 +105,15 @@ module.exports=function(app){
 }
 ```
 
+#### 项目打包
+
+```bash
+npm build
+```
 
 
-#### 消息订阅与发布
+
+### 消息订阅与发布
 
 ##### 加载
 
@@ -78,7 +142,9 @@ PubSub.publish('消息名',data);
 
 
 
-#### fetch发请求
+## 三、ajax
+
+### fetch发请求
 
 fetch是window内置的，和xhr同级，不使用xhr发送请求
 
@@ -123,9 +189,9 @@ async()=>{
 }
 ```
 
+## 四、路由
 
-
-#### 路由Router5
+### 路由Router5
 
 ```js
 react-router-dom@5
@@ -305,9 +371,11 @@ BrowserRouter和HashRouter
 
 
 
-#### UI组件库
+## 五、UI组件库
 
+和vue类似，略
 
+## 六、Redux
 
 #### redux
 
@@ -315,55 +383,425 @@ BrowserRouter和HashRouter
 
 不用时困难才用
 
-
-
-工作流程
+##### 工作流程
 
 ![image-20230330123903075](react笔记.assets/image-20230330123903075.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### 项目打包
+##### 安装
 
 ```bash
-npm build
+# 核心库
+npm install redux
+# 简化工具
+npm install @reduxjs/toolkit
+#both
+npm install @reduxjs/toolkit react-redux
+```
+
+创建应用模板
+
+```bash
+npx create-react-app my-app --template redux
 ```
 
 
 
-#### 路由Router6
+#### 基本使用
+
+https://cn.redux.js.org/tutorials/quick-start
+
+- 使用`configureStore`创建 Redux store
+
+  - `configureStore` 接受 `reducer` 函数作为命名参数
+  - `configureStore` 使用的好用的默认设置自动设置 store
+
+- 为 React 应用程序组件提供 Redux store
+
+  - 使用 React-Redux `<Provider>` 组件包裹你的 `<App />`
+  - 传递 Redux store 如 `<Provider store={store}>`
+
+- 使用 `createSlice` 创建 Redux "slice" reducer
+
+  - 使用字符串名称、初始状态和命名的 reducer 函数调用“createSlice”
+
+  - Reducer 函数可以使用 Immer 来“改变”状态
+  - 导出生成的 slice reducer 和 action creators
+
+- 在 React 组件中使用 React-Redux `useSelector/useDispatch` 钩子
+
+  - 使用 `useSelector` 钩子从 store 中读取数据
+
+  - 使用 `useDispatch` 钩子获取 `dispatch` 函数，并根据需要 dispatch actions
+
+###### 1.创建Redux store
+
+store.js
+
+```js
+import { configureStore } from '@reduxjs/toolkit'
+import counterReducer from '../features/counter/counterSlice'
+
+export default configureStore({
+  reducer: {
+    counter: counterReducer
+  }
+})
+```
+
+###### 2.在react中导入store
+
+index.js
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
+import store from './app/store'
+import { Provider } from 'react-redux'
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+```
+
+###### 3.创建 Redux State Slice
+
+features/counter/counterSlice.js
+
+```js
+import { createSlice } from '@reduxjs/toolkit'
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    value: 0
+  },
+  reducers: {
+    increment: state => {
+      // Redux Toolkit 允许我们在 reducers 写 "可变" 逻辑。它
+      // 并不是真正的改变状态值，因为它使用了 Immer 库
+      // 可以检测到“草稿状态“ 的变化并且基于这些变化生产全新的
+      // 不可变的状态
+      state.value += 1
+    },
+    decrement: state => {
+      state.value -= 1
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload
+    }
+  }
+})
+// 每个 case reducer 函数会生成对应的 Action creators
+export const { increment, decrement, incrementByAmount } = counterSlice.actions
+
+export default counterSlice.reducer
+```
+
+###### 4.在 React 组件中使用 Redux 状态和操作
+
+```jsx
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from './counterSlice'
+import styles from './Counter.module.css'
+
+export function Counter() {
+  const count = useSelector(state => state.counter.value)
+  const dispatch = useDispatch()
+
+  return (
+    <div>
+      <div>
+        <button
+          aria-label="Increment value"
+          onClick={() => dispatch(increment())}
+        >
+          Increment
+        </button>
+        <span>{count}</span>
+        <button
+          aria-label="Decrement value"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+#### 基础示例
+
+```js
+import { createStore } from 'redux'
+
+/**
+ * 这是一个 reducer 函数：接受当前 state 值和描述“发生了什么”的 action 对象，它返回一个新的 state 值。
+ * reducer 函数签名是 : (state, action) => newState
+ *
+ * Redux state 应该只包含普通的 JS 对象、数组和原语。
+ * 根状态值通常是一个对象。 重要的是，不应该改变 state 对象，而是在 state 发生变化时返回一个新对象。
+ *
+ * 你可以在 reducer 中使用任何条件逻辑。 在这个例子中，我们使用了 switch 语句，但这不是必需的。
+ * 
+ */
+function counterReducer(state = { value: 0 }, action) {
+  switch (action.type) {
+    case 'counter/incremented':
+      return { value: state.value + 1 }
+    case 'counter/decremented':
+      return { value: state.value - 1 }
+    default:
+      return state
+  }
+}
+
+// 创建一个包含应用程序 state 的 Redux store。
+// 它的 API 有 { subscribe, dispatch, getState }.
+let store = createStore(counterReducer)
+
+// 你可以使用 subscribe() 来更新 UI 以响应 state 的更改。
+// 通常你会使用视图绑定库（例如 React Redux）而不是直接使用 subscribe()。
+// 可能还有其他用例对 subscribe 也有帮助。
+
+store.subscribe(() => console.log(store.getState()))
+
+// 改变内部状态的唯一方法是 dispatch 一个 action。
+// 这些 action 可以被序列化、记录或存储，然后再重放。
+store.dispatch({ type: 'counter/incremented' })
+// {value: 1}
+store.dispatch({ type: 'counter/incremented' })
+// {value: 2}
+store.dispatch({ type: 'counter/decremented' })
+// {value: 1}
+```
+
+#### Redux Toolkit 示例
+
+```js
+import { createSlice, configureStore } from '@reduxjs/toolkit'
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    value: 0
+  },
+  reducers: {
+    incremented: state => {
+      // Redux Toolkit 允许在 reducers 中编写 "mutating" 逻辑。
+      // 它实际上并没有改变 state，因为使用的是 Immer 库，检测到“草稿 state”的变化并产生一个全新的
+      // 基于这些更改的不可变的 state。
+      state.value += 1
+    },
+    decremented: state => {
+      state.value -= 1
+    }
+  }
+})
+
+export const { incremented, decremented } = counterSlice.actions
+
+const store = configureStore({
+  reducer: counterSlice.reducer
+})
+
+// 可以订阅 store
+store.subscribe(() => console.log(store.getState()))
+
+// 将我们所创建的 action 对象传递给 `dispatch`
+store.dispatch(incremented())
+// {value: 1}
+store.dispatch(incremented())
+// {value: 2}
+store.dispatch(decremented())
+// {value: 1}
+```
+
+
+
+## 七、扩展
+
+
+
+## 间章、ReactHook
+
+==（注：reacthook部分摘自稀土掘金https://juejin.cn/post/7041551402048421901）==
+
+*Hook* 是 React 16.8 的新增特性。它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性。
+
+要点
+
+- 只能在**函数外层**调用 Hook，不要在循环、条件判断或者子函数中调用
+- 只能在 **React 的函数组件**和**自定义 Hook** 中调用 Hook。不要在其他 JavaScript 函数中调用
+
+##### 状态useState （state）
+
+`useState` 用于在函数组件中调用给组件添加一些内部状态 state，正常情况下纯函数不能存在状态副作用，通过调用该 Hook 函数可以给函数组件注入状态 state
+
+`useState` 唯一的参数就是初始 state，会返回当前状态和一个状态更新函数，并且 `useState` 返回的状态更新函数==不会把新的 state 和旧的 state 进行合并==，如需合并可使用 ES6 的对象结构语法进行手动合并
+
+```jsx
+const [state, setState] = useState(initialState);
+```
+
+使用
+
+```jsx
+import React, { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <input type="text" value={count} onChange={(e) => setCount(e.target.value)} />
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </div>
+  );
+}
+```
+
+###### 惰性初始状态函数
+
+```js
+export default function Counter(props) {
+  // 函数只在初始渲染时执行一次，组件重新渲染时该函数不会重新执行
+  const initCounter = () => {
+    console.log('initCounter');
+    return { number: props.number };
+  };
+  const [counter, setCounter] = useState(initCounter);
+
+```
+
+###### 跳过状态更新
+
+setState后isObject没有变化时，不会触发渲染更新
+
+##### 钩子useEffect（didMount+didUpdate）
+
+在函数组件主体内（React 渲染阶段）改变 DOM、添加订阅、设置定时器、记录日志以及执行其他包含副作用的操作都是不被允许的，因为这可能会产生莫名其妙的 bug 并破坏 UI 的一致性
+
+`useEffect` Hook 的使用则是用于完成此类副作用操作。`useEffect` 接收一个包含命令式、且可能有副作用代码的函数
+
+`useEffect`函数会在浏览器完成布局和绘制之后，下一次重新渲染之前执行，保证不会阻塞浏览器对屏幕的更新
+
+```js
+  useEffect(() => {})
+```
+
+`useEffect` Hook 函数执行时机类似于 class 组件的 `componentDidMount`、`componentDidUpdate` 生命周期，不同的是传给 `useEffect` 的函数会在浏览器完成布局和绘制之后进行异步执行
+
+
+
+##### 传递属性 useContext（props）
+
+Context 提供了一个无需为每层组件手动添加 props ，就能在组件树间进行数据传递的方法，`useContext` 用于函数组件中订阅上层 context 的变更，可以获取上层 context 传递的 `value` prop 值
+
+`useContext` 接收一个 context 对象（`React.createContext`的返回值）并返回 context 的当前值，当前的 context 值由上层组件中距离当前组件最近的 `<MyContext.Provider>` 的 `value` prop 决定
+
+###### 上层组件 createContext
+
+```js
+import React, { useContext, useState } from 'react';
+
+// 为当前 theme 创建一个 context
+const ThemeContext = React.createContext();
+
+const themes = {
+  light: {
+    foreground: "#000000",
+    background: "#eeeeee"
+  },
+  dark: {
+    foreground: "#ffffff",
+    background: "#222222"
+  }
+};
+
+export default function Toolbar(props) {
+  const [theme, setTheme] = useState(themes.dark);
+
+  const toggleTheme = () => {
+    setTheme(currentTheme => (
+      currentTheme === themes.dark
+        ? themes.light
+        : themes.dark
+    ));
+  };
+
+  return (
+    // 使用 Provider 将当前 props.value 传递给内部组件
+    <ThemeContext.Provider value={{theme, toggleTheme}}>
+      <ThemeButton />
+    </ThemeContext.Provider>
+  );
+}
+```
+
+###### 下层组件 useContext 
+
+```js
+function ThemeButton() {
+  // 通过 useContext 获取当前 context 值
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  
+  return (
+    <button 
+      	style={{background: theme.background, color: theme.foreground }}
+  		onClick={toggleTheme}>
+      Change the button's theme
+    </button>
+  );
+}
+```
+
+###### 优化消费 context 组件
+
+##### 状态 useReducer
+
+`useReducer` 作为 `useState` 的代替方案，在某些场景下使用更加适合，例如 state 逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 等。
+
+使用 `useReducer` 还能给那些会触发深更新的组件做性能优化，因为父组件可以向自组件传递 dispatch 而不是回调函数
+
+
+
+## 八、路由
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 路由Router6
 
 ![image-20230330124931355](react笔记.assets/image-20230330124931355.png)
 

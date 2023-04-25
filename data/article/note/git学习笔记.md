@@ -32,6 +32,12 @@ git branch -M master
 git push -u origin master
 ```
 
+草稿
+
+```bash
+git remote add upstream git@gitee.com:lone0915/wiley-homework.git
+```
+
 
 
 ## 1 概述
