@@ -57,13 +57,8 @@
                 "file":"MySQL笔记.md"
             },
             {
-                "key":"note-web2-javaweb",
-                "label":"javaweb学习笔记",
-                "file":"javaweb学习笔记.md"
-            },
-            {
                 "key":"note-web2-node",
-                "label":"Node学习笔记",
+                "label":"Node建站笔记",
                 "file":"NodeJS.md"
             }
         ],
