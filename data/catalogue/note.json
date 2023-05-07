@@ -75,6 +75,11 @@
         "label":"其他",
         "children":[
             {
+                "key":"note-else-linux",
+                "label":"linux学习笔记",
+                "file":"Linux学习笔记.html"
+            },
+            {
                 "key":"note-else-git",
                 "label":"git学习笔记",
                 "file":"git学习笔记.md"
