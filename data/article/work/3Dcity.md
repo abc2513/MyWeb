@@ -20,6 +20,8 @@
 
 - 添加FPS监视器，用于检查运行情况
 
+
+
 #### 访问网页
 
 <iframe name="footer" marginwidth=0 marginheight=0 width=100% height=500px src="http://localhost:3000/" frameborder=1>
@@ -29,7 +31,7 @@
 
 #### 网页截图
 
-
+![image-20230507214010476](3Dcity.assets/image-20230507214010476.png)
 
 ##### 模型展示
 

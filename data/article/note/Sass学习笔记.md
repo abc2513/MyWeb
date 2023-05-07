@@ -10,7 +10,7 @@ vscode、浏览器
 
 vscode插件：Emmet、color hightlight
 
-# 第一部分 
+# 第一部分 流动布局项目
 
 知识点：渐变、伪类、伪元素、动画、CSS解析原理、级联（CSS冲突）、相对单位、强制继承、定位、Sass、Sass文件架构、变量、嵌套、混入、函数、拓展、剪辑、背景剪辑、响应式设计、网格布局、变换、兄弟元素选择器、子一代元素选择器、变换、视频背景、图片滤镜、背景滤镜、Sass颜色函数、媒体查询、响应式图像、渐变、calc函数、透视、形状、纯色渐变、光标、堆叠。包含剪辑、转换、动画、背景视频这些现代css属性
 
@@ -1845,7 +1845,7 @@ hover:hover
 
 
 
-# 第二部分 弹性布局
+# 第二部分 弹性布局项目
 
 ### 弹性盒子Flexbox
 
@@ -2029,6 +2029,8 @@ background-size: cover;
 
 #### 背景颜色+使用svg作为蒙版（现代）
 
+掩码图像
+
 ```scss
 //支持masks属性的浏览器
 //将图标作为蒙板
@@ -2122,3 +2124,596 @@ position: relative;//z-index只有设置了定位才会生效
 策略：在设计失效的位置设置断点
 
 弹性盒子：通常可以改变主轴方向来实现一定的适配
+
+### 浏览器支持
+
+查询网址https://caniuse.com
+
+![image-20230428104644662](Sass学习笔记.assets/image-20230428104644662.png)
+
+##### 适配
+
+```scss
+@support (-webkit-mask-image:url() or ...){
+    ...
+}
+```
+
+# 第三部分 网页布局项目
+
+
+
+### 网格布局
+
+##### 属性
+
+容器、项目、轴
+
+![image-20230428110022015](Sass学习笔记.assets/image-20230428110022015.png)
+
+
+
+轨道、线、区域、单元
+
+![image-20230428110137214](Sass学习笔记.assets/image-20230428110137214.png)
+
+属性概览
+
+![image-20230428110150380](Sass学习笔记.assets/image-20230428110150380.png)
+
+
+
+##### 基本使用
+
+html
+
+```html
+<div class="container">
+    <div class="item item-1">1 Oriange</div>
+    <div class="item item-2">1 Oriange</div>
+    <div class="item item-3">1 Oriange</div>
+    <div class="item item-4">1 Oriange</div>
+    <div class="item item-5">1 Oriange</div>
+    <div class="item item-6">1 Oriange</div>
+</div>
+```
+
+scss
+
+```scss
+.container{
+    background-color: #eee;
+    border: #666 solid 1px;
+    width: 1000px;
+    margin: 30px auto;
+    display: grid;
+    //  行/列的数量和宽度
+    grid-template-rows: 150px 150px;
+    // grid-template-columns: 150px 150px 150px;
+    grid-template-columns: repeat(3,150px);//重复函数
+
+    //  行/列的间距
+    // grid-row-gap: 30px;
+    // grid-column-gap: 30px;
+    grid-gap: 30px;
+}
+.item{
+    padding: 20px;
+    font-size: 30px;
+    color: #fff;
+}
+.item-1{background-color:blueviolet;}
+.item-2{background-color:orange;}
+.item-3{background-color:gold;}
+.item-4{background-color:greenyellow;}
+.item-5{background-color:rgb(92, 234, 234);}
+.item-6{background-color:pink;}
+```
+
+##### 分数单位
+
+
+
+```scss
+grid-template-columns: 1fr 2fr 1fr;//分割可能的空间
+```
+
+![image-20230428115007226](Sass学习笔记.assets/image-20230428115007226.png)
+
+##### 位置和多行
+
+```scss
+.item-1{
+    background-color:blueviolet;
+    //位置
+    //1.start-end
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    //2.
+    grid-row: 1 / 2;
+    grid-column: 3 / 4;
+    //3.area
+    grid-area: 1/3/2/4;//开始的行/列，结束的行/列
+}
+```
+
+
+
+多行
+
+```scss
+  grid-area: 1/2/2/4;
+```
+
+
+
+![image-20230428131937259](Sass学习笔记.assets/image-20230428131937259.png)
+
+##### 命名网格线
+
+```scss
+grid-template-rows: [header-start] 150px [header-end box-start] 150px [box-end];
+//命名网格线
+grid-template-columns: repeat(3,[col-start] 150px [col-end]);
+//在重复函数中命名
+//被命名为col-start 1,col-start 2,col-start 3
+```
+
+```scss
+//使用命名网格线
+grid-row-start: header-end;
+```
+
+##### 命名网格区域
+
+```scss
+//命名网格区域
+grid-template-areas:    "head head head head"
+                        "main main main side"
+                        "main main main side"
+                        "foot foot foot foot";
+grid-template-areas:    ". head head ."
+                        "main main main side"
+                        "main main main side"
+                        "foot foot foot foot";
+```
+
+```scss
+//使用命名网格区域
+grid-area: head;
+```
+
+##### 显式/隐式网格
+
+隐式可以在未知项目数量的情况下使用，为未显示声明的行/列指定大小
+
+```scss
+//隐式网格自动排列方向
+grid-auto-flow:column;//row
+//默认列宽度
+gird-auto-columns:1fr;
+
+//dense致密排列，避免出现空区域
+gird-auto-rows:1fr dense;
+```
+
+##### 对齐网格项目
+
+当项目和网格大小不一致时
+
+```scss
+//列方向
+align-item:stretch;//默认情况，拉伸
+align-item:center;//start,end,center
+//行方向
+justify-item:stretch;//默认情况，拉伸
+justify-item:center;//start,end,center
+```
+
+
+
+##### 对齐网格容器
+
+当所有项目在网格中有多余空间时，网格如何放置
+
+1 . justify-content 行方向上
+
+```scss
+justify-content: start;//默认
+```
+
+![image-20230506165148368](Sass学习笔记.assets/image-20230506165148368.png)
+
+```scss
+justify-content: center;
+```
+
+![image-20230506165111074](Sass学习笔记.assets/image-20230506165111074.png)
+
+```scss
+justify-content: space-between;
+```
+
+![image-20230506165054964](Sass学习笔记.assets/image-20230506165054964.png)
+
+2 .  align-content 列方向上
+
+```scss
+align-content: center;
+```
+
+![image-20230506165414020](Sass学习笔记.assets/image-20230506165414020.png)
+
+##### 适应项目内容的长度
+
+1、使用max-content / min-content
+
+适应项目内容的最大/最小宽度
+
+```scss
+grid-template-columns: max-content min-content 1fr;
+```
+
+![image-20230506171445253](Sass学习笔记.assets/image-20230506171445253.png)
+
+2、使用minmax函数
+
+在二者之间取值
+
+```scss
+//grid-template-columns: minmax(min-content,max-content) 160px 160px;
+grid-template-columns: minmax(150px,max-content) 160px 160px;
+```
+
+
+
+![image-20230506172447482](Sass学习笔记.assets/image-20230506172447482.png)
+
+![image-20230506172505550](Sass学习笔记.assets/image-20230506172505550.png)
+
+![image-20230506172522306](Sass学习笔记.assets/image-20230506172522306.png)
+
+
+
+##### 响应性布局
+
+```scss
+//auto-fill数量
+grid-template-columns: repeat(auto-fill,180px);
+grid-template-rows: repeat(auto-fill,100px);
+```
+
+![image-20230506174624791](Sass学习笔记.assets/image-20230506174624791.png)
+
+```scss
+grid-template-columns: repeat(auto-fit,180px);
+grid-template-rows: repeat(auto-fit,100px);
+```
+
+![image-20230506174549928](Sass学习笔记.assets/image-20230506174549928.png)
+
+```scss
+    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+    grid-template-rows: repeat(auto-fit,150px);
+```
+
+![image-20230506174923391](Sass学习笔记.assets/image-20230506174923391.png)
+
+
+
+### 项目开始
+
+
+
+##### 整体布局
+
+```scss
+*,*::before,*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+html{
+    box-sizing: border-box;
+    font-size: 10px;
+}
+body{
+    font-family: $font-primary;
+    color: $color-grey-dark-2; 
+    font-weight: 300;
+    line-height: 1.6;
+}
+.container{
+    display: grid;
+    grid-template-rows: 80vh min-content 40vw repeat(3,min-content);
+    grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem,1fr) [center-start] repeat(8,[col-start] minmax(min-content,14rem) [col-end]) [center-end] minmax(6rem,1fr) [full-end];
+
+    &>*{
+        padding: 40px;
+        font-size: 3rem;
+    }
+}
+```
+
+![image-20230506200523823](Sass学习笔记.assets/image-20230506200523823.png)
+
+##### feature
+
+![image-20230506210821343](Sass学习笔记.assets/image-20230506210821343.png)
+
+快捷键创建节点
+
+```html
+<!--		.feature{feature $}*6		-->
+<div class="feature">feature 1</div>
+<div class="feature">feature 2</div>
+<div class="feature">feature 3</div>
+<div class="feature">feature 4</div>
+<div class="feature">feature 5</div>
+<div class="feature">feature 6</div>
+<!----------------------------------------->
+<div class="feature">
+    <svg class="feature_icon">
+        <use xlink:href="img/sprite.svg#icon-lock"></use>
+    </svg>
+    <h4 class="heading-4">Secure payments on nexter</h4>
+    <p class="feature_box">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos voluptates porro officia voluptatem laborum. Quam tempora explicabo est itaque eveniet maiores consequuntur nesciunt, eaque hic perferendis ducimus debitis facere quae.</p>
+</div>
+```
+
+
+
+```scss
+.features{
+    grid-column: center-start / center-end ;
+    margin: 15rem 0;
+
+    display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit,minmax(25rem,1fr));
+    grid-gap: 6rem;
+    align-items: start;
+    
+}
+.feature{
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    justify-self: center;
+    align-items: center;
+    grid-gap: 1.5rem 2.5rem;
+    &_icon{
+        fill:$color-primary;//svg图标颜色
+        width: 4.5rem;
+        height: 4.5rem;
+        transform: translateY(-1rem);
+    }
+    &_text{
+        font-size: 1.7rem;
+        grid-column: 2 / -1;
+    }
+}
+```
+
+
+
+##### 标题
+
+```scss
+%heading{
+    font-family: $font-display;
+    font-weight: 400;
+}
+//使用拓展
+.heading-1{
+    @extend %heading;
+}
+.heading-2{
+    @extend %heading;    
+}
+.heading-3{
+    @extend %heading;    
+}
+.heading-4{
+    @extend %heading;
+    font-size: 2rem;    
+    &_light{
+        color:$color-grey-light-1
+    }
+    &_dark{
+        color:$color-grey-dark-1
+    }
+}
+```
+
+
+
+##### story-content
+
+使用表格定位，隐式
+
+![image-20230507152617821](Sass学习笔记.assets/image-20230507152617821.png)
+
+```scss
+&_content{
+    background-color: $color-grey-light-1;
+    grid-column: col-start 5 / full-end;
+
+    padding: 6rem 8rem;
+
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: flex-start;
+
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+&_text{
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-bottom: 4rem;
+}
+```
+
+
+
+##### story-picture
+
+###### 使用表格定位图片
+
+![image-20230507152125686](Sass学习笔记.assets/image-20230507152125686.png)
+
+```scss
+.story{
+    &_pictures{
+        background-color: $color-primary;
+        grid-column: full-start /col-end 4;
+        background-image: linear-gradient(rgba($color-primary,0.5),rgba($color-primary,0.5)),url(../img/back.jpg);
+
+        display: grid;
+        grid-template-columns: repeat(6,1fr);
+        grid-template-rows: repeat(6,1fr);
+        align-items: center;
+    }
+    &_img-1{
+        width: 100%;
+        grid-column: 2/-2;
+        grid-row: 2/-2;
+        box-shadow: 0 2rem 5rem rgba(#000,.1);
+    }
+    &_img-2{
+        width: 115%;
+        //让图片超出表格
+        z-index: 20;
+        //图片超出部分显示在上面
+        grid-column: 4/7;
+        grid-row: 4/-1;
+        box-shadow: 0 2rem 5rem rgba(#000,.1);
+    }
+```
+
+###### 色彩覆盖的背景
+
+![image-20230507152211269](Sass学习笔记.assets/image-20230507152211269.png)
+
+```scss
+background-image: linear-gradient(rgba($color-primary,0.5),rgba($color-primary,0.5)),url(../img/back.jpg);
+```
+
+
+
+##### home
+
+使用pading和margin避免创建更多复杂的轨道
+
+![image-20230507164837140](Sass学习笔记.assets/image-20230507164837140.png)
+
+##### 照片墙
+
+![image-20230507185353814](Sass学习笔记.assets/image-20230507185353814.png)
+
+elemt快捷键
+
+```html
+<img src="img/gal-1.jpeg" alt="gallery_img 1" class="gallery_img">
+<img src="img/gal-2.jpeg" alt="gallery_img 2" class="gallery_img">
+<img src="img/gal-3.jpeg" alt="gallery_img 3" class="gallery_img">
+<img src="img/gal-4.jpeg" alt="gallery_img 4" class="gallery_img">
+<img src="img/gal-5.jpeg" alt="gallery_img 5" class="gallery_img">
+<img src="img/gal-6.jpeg" alt="gallery_img 6" class="gallery_img">
+<img src="img/gal-7.jpeg" alt="gallery_img 7" class="gallery_img">
+<img src="img/gal-8.jpeg" alt="gallery_img 8" class="gallery_img">
+<img src="img/gal-9.jpeg" alt="gallery_img 9" class="gallery_img">
+<!-- (img.gallery_img[src="img/gal-$.jpeg"][alt="gallery_img $"])*9 -->
+```
+
+
+
+```scss
+.gallery{
+    background-color: $color-grey-light-1;
+    grid-column: full-start / full-end ;
+
+    display: grid;
+    grid-template-columns: repeat(8,1fr);
+    grid-template-rows: repeat(7,5vw);
+    grid-gap: 1rem;
+    &_img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    :nth-child(1){
+        grid-column: 1/3;
+        grid-row: 1/3;
+    }
+    :nth-child(2){
+        grid-column: 3/6;
+        grid-row: 1/4;
+    }
+}
+```
+
+##### footer
+
+![image-20230507192747261](Sass学习笔记.assets/image-20230507192747261.png)
+
+html
+
+```html
+<div class="footer">
+    <ul class="nav">
+        <li class="nav_item"><a href="#" class="nav_link">Find your dream home</a></li>
+        <li class="nav_item"><a href="#" class="nav_link">Request proposal</a></li>
+        <li class="nav_item"><a href="#" class="nav_link">Download home planner</a></li>
+        <li class="nav_item"><a href="#" class="nav_link">Contact us</a></li>
+        <li class="nav_item"><a href="#" class="nav_link">Submit your property</a></li>
+        <li class="nav_item"><a href="#" class="nav_link">Come work with us</a></li>
+    </ul>
+    <p class="copyright">
+        &copy; Copyright 2023 by xxx.Feel free to use on your own project Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto cum distinctio culpa rerum in harum recusandae possimus! Ullam, impedit perspiciatis veniam ea officia nam tempore, unde corporis minima dignissimos illo?
+    </p>
+</div>
+```
+
+```scss
+.footer{
+    background-color: $color-secondary;
+    grid-column: full-start / full-end ;
+    padding: 8rem;
+}
+.nav{
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(20rem,1fr));
+    grid-gap: 2rem;
+    &_item{}
+    &_link{
+        &:link,&:visited{
+            font-size: 1.4rem;
+            color: #fff;
+            text-decoration: none;
+            font-family: $font-display;
+            text-transform: uppercase;
+            text-align: center;
+            display: block;
+            padding: 1.5rem;
+            transition: all .2s;
+        }
+        &:hover,&:active{
+            background-color: rgba(#fff,0.05);
+            transform: translateY(-.5rem);
+        }
+    }
+}
+.copyright{
+    font-size: 1.4rem;
+    color: $color-grey-light-2;
+    margin-top: 6rem;
+    text-align: center;
+}
+```
+
