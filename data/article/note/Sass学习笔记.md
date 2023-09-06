@@ -1289,7 +1289,7 @@ MDN：https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor
 
 可以加`! importent`标签确保应用生效，因为选择应用类就是要把相应的属性添加上
 
-### 页脚!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+### 页脚
 
 ### 导航
 
@@ -1676,27 +1676,18 @@ html {
 
 最后一个匹配的生效
 
-
-
 ### 考虑顺序
 
 基础和排版，布局，页面，组件
 
-#### 基础
-
-字体大小
-
-#### 排版
-
-标题
-
-#### 布局
-
-grid
-
-#### 细节
-
-按钮、组件 等
+- 基础
+  - 字体大小
+- 排版
+  - 标题
+- 布局
+  - grid
+- 细节
+  - 按钮、组件 等
 
 ### 响应式图像
 
@@ -1801,7 +1792,32 @@ backdrop-filter:blur(10px);
 
 ![image-20230413173914260](Sass学习笔记.assets/image-20230413173914260.png)
 
-#### 在npm中配置构建流程!!!!!!!!!!!!!!!!!!!!!
+#### 在npm中配置构建流程
+
+安装
+
+```bash
+npm i -g npm-run-all concat autoprefixer postcss-cli
+```
+
+
+
+为项目配置
+
+```js
+"scripts": {
+    "watch:sass": "node-sass sass/main.scss css/style.css -w",
+    "devserver": "live-server",
+    "start": "npm-run-all --parallel devserver watch:sass",
+
+    "compile:sass": "node-sass sass/main.scss css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.comp.css -o css/style.prefix.css",
+    "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
+    "build:css": "npm-run-all compile:sass prefix:css compress:css"
+  }
+```
+
+
 
 ![image-20230413174208563](Sass学习笔记.assets/image-20230413174208563.png)
 
@@ -2715,5 +2731,32 @@ html
     margin-top: 6rem;
     text-align: center;
 }
+```
+
+##### header
+
+![image-20230511173653646](Sass学习笔记.assets/image-20230511173653646.png)
+
+###### 线包围文字
+
+文本设置为网格布局，在文本前后添加伪元素
+
+![image-20230511173238956](Sass学习笔记.assets/image-20230511173238956.png)
+
+```scss
+    &_seenon-text{
+        display: grid;
+        font-size: 1.6rem;
+        color: $color-grey-light-2;
+        grid-template-columns: 1fr max-content 1fr;
+        align-items: center;
+        grid-gap: 1rem;
+        &::before,&::after{
+            content: "";
+            height: 1px;
+            display: block;
+            background-color: currentColor;//采用文本颜色
+        }
+    }
 ```
 

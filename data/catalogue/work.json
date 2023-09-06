@@ -8,7 +8,11 @@
         "key":"work-real",
         "label":"企业项目",
         "children":[
-            
+            {
+                "key":"work-real-simt",
+                "label":"wiley特刊管理系统",
+                "file":"wiley特刊管理系统.md"
+            }
         ],
         "icon":null,
         "type":"group"
@@ -30,7 +34,7 @@
             {
                 "key":"work-school-sf",
                 "label":"雪原信息预测系统",
-                "file":"雪原信息分析预测系统.md"
+                "file":"雪原信息分析系统.md"
             }
 
         ],

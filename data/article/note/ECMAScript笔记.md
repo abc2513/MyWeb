@@ -4,6 +4,8 @@
 
 ECMAScript是ECMA国际 标准化的脚本语言设计标准
 
+## ES6
+
 #### let变量
 
 ```js
@@ -633,7 +635,7 @@ import 要保存的变量名 from './xxx.js'
 
 处理模块，转化为浏览器能识别的js
 
-安装工具：命令行工具，预设包，打包工具（browserify、webpack）
+1、安装工具：命令行工具，预设包，打包工具（browserify、webpack）
 
 ```bash
 npm i babel-cli babel-preset-env browserify -D
@@ -641,16 +643,235 @@ npm i babel-cli babel-preset-env browserify -D
 
 `-D `表示开发依赖
 
-
-
-运行
+2、运行
 
 ```bash
 npx babel src/js dist/js --preset=babel-preset-env
 #源目录 输出目录 预设
 ```
 
-###### 打包【】
+3、打包
 
-https://www.bilibili.com/video/BV1uK411H7on?p=46
+```bash
+npx browserify dist/js/app.js -o dist/bundle.js
+```
 
+## ES7
+
+##### 数组include方法
+
+##### 指数操作符
+
+```js
+//检查数组中是否包含元素，返回布尔类型
+arr.includes()
+//指数操作符**
+//2**3==Math.pow(2,3)==8
+```
+
+
+
+## ES8
+
+#### 异步
+
+##### async函数
+
+```js
+synv function xxx(){}
+```
+
+- 返回非promise对象
+- 抛出错误
+- 返回promise对象
+
+##### await表达式
+
+只能放在async函数内
+
+- await 操作符用于等待一个 Promise 兑现并获取它兑现之后的值。
+- promise成功，返回值
+- promise拒绝，抛出异常
+
+##### async+await封装AJAX
+
+用promise发请求，用await接结果，很方便
+
+```js
+function sendAJAX(url){
+    return new Promise((resolve,reject)=>{
+        const x=new XMLHttpRequest();
+    	x.open('get',url)
+        x.send();
+        x.onreadystatechange=function(){
+            if(x.readyState===4){
+                if(x.status >=200 && x.status < 300){
+                    resolve(x.response);
+                }else{
+                    reject(x.status);
+                }
+            }
+        }
+    })
+}
+async function aFun(){
+    let result=await sendAJAX("https://api.apiopen.top/getJoke");
+    let result2=await sendAJAX('url');
+}
+```
+
+#### 对象方法扩展
+
+```js
+//获取对象所有键，返回数组
+let arr = Object.keys(obj);
+//获取对象所有值，返回数组
+let arr = Object.value(obj);
+//获取对象所有键值对，返回键值对对象的数组
+let arr = Object.entries(obj);
+//创建Map 
+let map = new Map(Object.entries(obj));
+//创建对象属性的描述对象
+//键不变，值变{writable,configurable,enumerable,vaule:{值}}
+let obj = Object.getOwnPropertyDescriptors(obj);
+```
+
+## ES9
+
+##### 拓展运算符
+
+```js
+obj={...obj1,...obj2}
+```
+
+##### rest参数
+
+```js
+function fun({a,b,...c}){}
+```
+
+#### 正则表达式拓展
+
+##### 分组捕获和命名
+
+![image-20230515222708800](ECMAScript笔记.assets/image-20230515222708800.png)
+
+##### 反向断言
+
+![image-20230516124636026](ECMAScript笔记.assets/image-20230516124636026.png)
+
+##### dotAll模式
+
+```js
+//  .  元字符，除换行符以外的任意单个字符
+let str=`
+	<ul>
+		<li>...</li>
+	</ul>
+`
+const reg = /<li>\s+<a>(.*?)<\/a><p>(.*?)<\/p>/;
+const reg = /<li>\s+<a>(.*?)<\/a><p>(.*?)<\/p>/gs;
+```
+
+## ES10
+
+#### 对象拓展方法
+
+##### fromEntries
+
+```js
+Object.fromEntries([['key','value'],])
+//将二维数组转化为对象，和Object.entries(obj)互逆
+```
+
+##### trim
+
+```js
+//trim，原来就有，清除字符串中的空白
+//新增方法，清除字符串前/后中的空白
+str1=str.trimStart();
+str2=str.trimEnd();
+```
+
+##### flat
+
+```js
+//将高维数组转化为低维数组
+let arr=[1,[2,[3]]]
+arr.flat()//3维度转2维
+arr.flat(2)//深度为2，3维转1维数组
+```
+
+##### symbol
+
+```js
+let s = Symbol('abc')
+s.description
+```
+
+## ES11
+
+##### 对象私有属性
+
+```js
+class Person{
+    name;
+    #age;
+    #weight;
+    constructor(name,age,weight){
+        this.name=name;
+        this.#age=age
+    }
+    say(){
+        console.log(this.#age)
+        //只能在对象中调用
+    }
+}
+```
+
+#### 批量Promise
+
+##### allSettled
+
+```js
+Promise.allSettled([promise1,promise2])
+```
+
+始终返回成功，用于获取每个值
+
+##### all
+
+```js
+Promise.all([promise1,promise2])
+```
+
+都成功时才成功
+
+#### 批量正则
+
+##### matchAll
+
+```js
+resultArr=str.matchAll(reg);//
+```
+
+##### 可选链操作符
+
+```js
+a.b;//如果a==undefined，会报错
+a?.b;//使用可选链操作符?.时，a==undefined则返回undefined
+```
+
+##### 动态导入
+
+提高模块加载效率
+
+![image-20230518185217495](ECMAScript笔记.assets/image-20230518185217495.png)
+
+##### 大整数
+
+![image-20230518185705154](ECMAScript笔记.assets/image-20230518185705154.png)
+
+##### globalThis
+
+指向全局变量，浏览器是window、NodeJS是gobal

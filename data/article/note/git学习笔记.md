@@ -32,10 +32,19 @@ git branch -M master
 git push -u origin master
 ```
 
+```bash
+
+```
+
+
+
 草稿
 
 ```bash
+#添加上游分支
 git remote add upstream git@gitee.com:lone0915/wiley-homework.git
+#修改上游分支
+git remote set-url upstream http://47.103.142.157:2022/simt-frontend/simt_front.git
 ```
 
 

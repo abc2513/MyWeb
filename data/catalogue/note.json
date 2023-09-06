@@ -10,8 +10,13 @@
         "children":[
             {
                 "key":"note-web-sass",
-                "label":"CSS进阶和Sass笔记",
+                "label":"CSS进阶和Sass学习笔记",
                 "file":"Sass学习笔记.html"
+            },
+            {
+                "key":"note-web-webpack",
+                "label":"webpack笔记",
+                "file":"webpack笔记.md"
             },
             {
                 "key":"note-web-pro",
@@ -35,13 +40,18 @@
             },
             {
                 "key":"note-web-es6",
-                "label":"ES6笔记",
+                "label":"ES6学习笔记",
                 "file":"ECMAScript笔记.md"
             },
             {
-                "key":"note-web-webpack",
-                "label":"webpack笔记",
-                "file":"webpack笔记.md"
+                "key":"note-web-ts",
+                "label":"TypeScript笔记",
+                "file":"TypeScript笔记.md"
+            },
+            {
+                "key":"note-web-svg",
+                "label":"SVG学习笔记",
+                "file":"svg笔记.md"
             }
         ],
         "icon":null,
