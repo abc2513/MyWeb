@@ -107,7 +107,7 @@
                         },
                         "es6":{
                             "title":"JS_ES6+",
-                            "fileName":"JS-ES6.md"
+                            "fileName":"JS-ES6.html"
                         },
                         "js_jj":{
                             "title":"JS_进阶",
@@ -115,7 +115,7 @@
                         },
                         "js_promise":{
                             "title":"JS_Promise",
-                            "fileName":"JS-Promise.md"
+                            "fileName":"JS-Promise.html"
                         },
                         "js_sjms":{
                             "title":"JS_设计模式",
@@ -140,7 +140,7 @@
                         },
                         "webpack":{
                             "title":"Webpack",
-                            "fileName":"webpack笔记.md"
+                            "fileName":"webpack笔记.html"
                         
                         },
                         "redux":{
