@@ -7,7 +7,7 @@ SVG是一种基于XML的图像格式（可缩放矢量图），是对图像形�
 - 矢量图，不会失真
 - 直接作为元素插入页面，相对于图片可以进行操作
 
-## 语法
+## 语法/标签
 
 ### `svg`标签
 
@@ -71,7 +71,7 @@ SVG是一种基于XML的图像格式（可缩放矢量图），是对图像形�
     <polyline points="10,10 100,10 100,100 200,100" stroke="purple" stroke-width="5" fill="transparent" />
 </svg>
 
-### `reat`矩形标签
+### `rect`矩形标签
 
 - x,y
 - height,width
@@ -161,7 +161,100 @@ polygon 多边形
 </svg>
 ```
 
-### `pattern`标签
+### `pattern`模式标签
+
+可用来填充其他标签
+
+```html
+<svg>
+<pattern id='id'>形状</pattern>
+    <rect fill='#id'></rect>
+</svg>
+```
+
+`image`图像标签
+
+```html
+<svg>
+<image xlink:href='./image.jpg'/>
+</svg>
+```
+
+### `animate`动画标签
+
+动画
+
+- attributeName
+- from,to
+- dur
+- repeatCount
+
+![image-20230906093842738](svg笔记.assets/image-20230906093842738.png)
+
+```html
+<svg width='100%' height='300px'>
+    <rect x='100' y='50' height='50' width='100'>
+    	<animate attributeName='x' from='0' to='200' dur='2s' repeatCount="indefinite"/>
+    </rect>
+</svg>
+```
 
 
 
+### `animateTransform`css动画标签
+
+![image-20230906094703930](svg笔记.assets/image-20230906094703930.png)
+
+## 环形进度条
+
+```html
+<svg id="svg_id" width="100%" height="800px">
+    <!-- 设置底色的圆环 -->
+    <circle cx="350" cy="350" r="300" fill="none" stroke="grey" stroke-width="40" stroke-linecap="round" />
+    <!-- 设置进度的圆环 -->
+    <circle class="progress" cx="350" cy="350" r="300" fill="none" stroke="red" stroke-width="40" stroke-linecap="round"
+            stroke-dasharray="200,10000"
+            transform="rotate(-90,350,350)"
+            />
+    <!-- 设置文本 -->
+    <text class="text" x="350" y="350" text-anchor="middle" dy="20" font-size="90" fill="black">100%</text>
+    <circle class="progress" />
+</svg>
+<script>
+    let progressElement = document.querySelector('#svg_id .progress');
+    let textElement=document.querySelector('#svg_id .text');
+    function handleCircle(persent){
+        // 计算圆环长度
+        let circleLength = Math.floor(2*Math.PI*parseFloat(progressElement.getAttribute('r')));
+        // 计算圆环进度
+        let progress = circleLength * persent / 100;
+        // 计算颜色，从255,0,0到0,191,255
+        let red = Math.floor(255 - 255 * persent / 100);
+        let green = Math.floor(191 * persent / 100);
+        let blue = Math.floor(255 * persent / 100);
+        // 设置圆环进度和颜色
+        progressElement.setAttribute('stroke-dasharray', progress + ',10000');
+        progressElement.setAttribute('stroke', 'rgb(' + red + ',' + green + ',' + blue + ')');
+        // 设置文本内容和颜色
+        textElement.textContent = persent + '%';
+        textElement.setAttribute('fill', 'rgb(' + red + ',' + green + ',' + blue + ')');
+    }
+    //每80ms增加1%，直到100%
+    let persent = 0;
+    let intervalId = setInterval(function () {
+        handleCircle(persent);
+        persent++;
+        if (persent > 100) {
+            persent = 0;
+        }
+    }, 80);
+</script>
+```
+
+## JS操作SVG
+
+当svg直接放入页面，可以使用操作dom的方式操作
+
+- getAttribute(属性名)
+- setAttribute(属性名，数值)
+- style.属性=...

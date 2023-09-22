@@ -14,7 +14,7 @@
 
 本身只能打包js
 
-#### 开始
+#### 创建项目
 
 1、初始化`package.json`
 
@@ -80,7 +80,7 @@ module.exports={
 //npx webpack 在当前路径下，寻找webpack.config.js配置文件执行打包const path=require("path");
 ```
 
-#### 开发模式
+## 开发模式
 
 开发模式：开发代码时使用的模式。
 
@@ -423,7 +423,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 
 
-#### 生产模式
+## 生产模式
 
 package.json
 
@@ -442,9 +442,9 @@ package.json
 
 
 
-#### CSS处理
+#### CSS处理（加插件）
 
-###### 提取
+###### 提取成文件
 
 原来的css是通过styleloader放进js，通过js创建一个 style 标签来生成样式，对于网站来说，会出现闪屏现象，用户体验不好。我们应该是单独的 Css 文件，通过 link 标签加载性能才好
 
@@ -491,7 +491,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 
-###### 兼容
+###### 兼容性问题
 
 1、下载
 
@@ -619,7 +619,7 @@ devtool: "source-map",
 
 #### 提升打包速度
 
-###### dev热模块替换
+###### 热模块替换HotModuleReplacement
 
 HotModuleReplacementHMR/热模块替换）：在程序运行中，替换、添加或删除模块，而无需重新加载整个页面。(开发时我们修改了其中一个模块代码，Webpack 默认会将所有模块全部重新打包编译，速度很慢。)
 
@@ -643,7 +643,7 @@ Vue/React中的热替换：使用自带的loader
 
 
 
-###### 匹配单加载器
+###### 匹配单加载器OneOf
 
 打包时每个文件都会经过所有 loader 处理，虽然因为 `test` 正则原因实际没有处理上，但是都要过一遍，比较慢
 
@@ -671,7 +671,7 @@ module:{
 
 
 
-###### 排除第三方库
+###### 排除第三方库Include/Exclude
 
 开发时我们需要使用第三方的库或插件，所有文件都下载到 node_modules 中了。而这些文件是不需要编译可以直接使用的。所以我们在对 js 文件处理时，要排除 node_modules 下面的文件。
 
@@ -699,7 +699,7 @@ new ESLintWebpackPlugin({
 
 
 
-###### 使用缓存
+###### 使用缓存Cache
 
 每次打包时 js 文件都要经过 Eslint 检查 和 Babel 编译，速度比较慢。我们可以缓存之前的 Eslint 检查 和 Babel 编译结果，这样第二次打包时速度就会更快了。
 
@@ -735,7 +735,7 @@ new ESLintWebpackPlugin({
 
 
 
-###### 多进程
+###### 多进程 Thead
 
 当项目越来越庞大时，打包速度越来越慢，甚至于需要一个下午才能打包出来代码。这个速度是比较慢的。我们想要继续提升打包速度，其实就是要提升 js 的打包速度，因为其他文件都比较少。而对 js 文件处理主要就是 eslint 、babel、Terser 三个工具，所以我们要提升它们的运行速度。我们可以开启多进程同时处理 js 文件，这样速度就比之前的单进程打包更快了。
 
@@ -941,7 +941,7 @@ optimization: {//压缩的东西一般放这里
 
 #### 优化运行性能
 
-##### JS代码分割
+##### JS代码分割Code Split
 
 - 分割文件、按需加载
 
@@ -1281,17 +1281,182 @@ module.exports = {
 };
 ```
 
-###### 给模块命名！
+###### 给模块命名
 
 https://www.bilibili.com/video/BV14T4y1z7sw/?p=46&spm_id_from=pageDriver&vd_source=b3a61f4abb2aa7da517f6cf364e96fdd
 
+ ```js
+     //2.输出
+     output: {
+         path: undefined,//开发模式不需要输出
+         filename: "static/js/main.js",//入口文件打包输出文件名
+         chunkFilename: "static/js/[name].chunk.js",//非入口文件打包输出文件名
+         environment: {
+             arrowFunction: false // 关闭webpack的箭头函数，可选
+         }
+     },
+ ```
+
+
+
+```js
+    //2.输出
+    output: {
+        path: undefined,//开发模式不需要输出
+        filename: "static/js/[name].js",//入口文件打包输出文件名
+        chunkFilename: "static/js/[name].chunk.js",//非入口文件打包输出文件名
+        //图片、字体等通过type: "asset"处理资源命名
+        assetModuleFilename: "static/media/[hash:8][ext][query]",//资源打包输出文件名
+        
+        environment: {
+            arrowFunction: false // 关闭webpack的箭头函数，可选
+        }
+    },
+```
+
+
+
 ###### ESLint配置！
 
-##### 空闲时加载
+##### 提前加载 Preload / Prefetch
 
-##### 网络缓存
+我们前面已经做了代码分割，同时会使用 import 动态导入语法来进行代码按需加载（我们也叫懒加载，比如路由懒加载就是这样实现的）。
 
-##### 兼容性补丁
+但是加载速度还不够好，比如：是用户点击按钮时才加载这个资源的，如果资源体积很大，那么用户会感觉到明显卡顿效果。
+
+我们想在浏览器空闲时间，加载后续需要使用的资源。我们就需要用上 `Preload` 或 `Prefetch` 技术。
+
+- `Preload`：告诉浏览器立即加载资源。
+- `Prefetch`：告诉浏览器在空闲时才开始加载资源。
+
+共同点：
+
+- 都只会加载资源，并不执行。
+- 都有缓存。
+
+区别：
+
+- `Preload`加载优先级高，`Prefetch`加载优先级低。
+- `Preload`只能加载当前页面需要使用的资源，`Prefetch`可以加载当前页面资源，也可以加载下一个页面需要使用的资源。
+
+总结：
+
+- 当前页面优先级高的资源用 `Preload` 加载。
+- 下一个页面需要使用的资源用 `Prefetch` 加载。
+
+它们的问题：兼容性较差。
+
+- 我们可以去 [Can I Use](https://caniuse.com/)
+
+-  网站查询 API 的兼容性问题。
+- `Preload` 相对于 `Prefetch` 兼容性好一点。
+
+###### 使用
+
+1. 下载包
+
+```text
+npm i @vue/preload-webpack-plugin -D
+```
+
+1. 配置 webpack.prod.js
+
+
+
+```js
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+//...插件配置 
+    new PreloadWebpackPlugin({
+      rel: "preload", // preload兼容性更好
+      as: "script",
+      // rel: 'prefetch' // prefetch兼容性更差
+    }),
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### 网络缓存 Network Cache
+
+将来开发时我们对静态资源会使用缓存来优化，这样浏览器第二次请求资源就能读取缓存了，速度很快。
+
+但是这样的话就会有一个问题, 因为前后输出的文件名是一样的，都叫 main.js，一旦将来发布新版本，因为文件名没有变化导致浏览器会直接读取缓存，不会加载新资源，项目也就没法更新了。
+
+所以我们从文件名入手，确保更新前后文件名不一样，这样就可以做缓存了
+
+它们都会生成一个唯一的 hash 值。
+
+- fullhash（webpack4 是 hash）
+
+每次修改任何一个文件，所有文件名的 hash 至都将改变。所以一旦修改了任何一个文件，整个项目的文件缓存都将失效。
+
+- chunkhash
+
+根据不同的入口文件(Entry)进行依赖文件解析、构建对应的 chunk，生成对应的哈希值。我们 js 和 css 是同一个引入，会共享一个 hash 值。
+
+- contenthash
+
+根据文件内容生成 hash 值，只有文件内容变化了，hash 值才会变化。所有文件 hash 值是独享且不同的。
+
+```js
+// [contenthash:8]使用contenthash，取8位长度
+    filename: "static/js/[name].[contenthash:8].js", // 入口文件打包输出资源命名方式
+    chunkFilename: "static/js/[name].[contenthash:8].chunk.js", // 动态导入输出资源命名方式
+    assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
+```
+
+```js
+    new MiniCssExtractPlugin({
+      // 定义输出文件名和目录
+      filename: "static/css/[name].[contenthash:8].css",
+      chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+    }),
+```
+
+###### 提取runtime文件
+
+- 问题：
+
+当我们修改 math.js 文件再重新打包的时候，因为 contenthash 原因，math.js 文件 hash 值发生了变化（这是正常的）。
+
+但是 main.js 文件的 hash 值也发生了变化，这会导致 main.js 的缓存失效。明明我们只修改 math.js, 为什么 main.js 也会变身变化呢？
+
+- 原因：
+  - 更新前：math.xxx.js, main.js 引用的 math.xxx.js
+  - 更新后：math.yyy.js, main.js 引用的 math.yyy.js, 文件名发生了变化，间接导致 main.js 也发生了变化
+- 解决：
+
+将 hash 值单独保管在一个 runtime 文件中。
+
+我们最终输出三个文件：main、math、runtime。当 math 文件发送变化，变化的是 math 和 runtime 文件，main 不变。
+
+runtime 文件只保存文件的 hash 值和它们与文件关系，整个文件体积就比较小，所以变化重新请求的代价也小。
+
+```js
+ optimization: {
+      minimizer: [
+          // 提取runtime文件
+        runtimeChunk: {
+          name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+        },
+```
+
+
+
+
+
+
+
+##### 兼容性补丁core-js！
 
 - 过去我们使用 babel 对 js 代码进行了兼容性处理，其中使用@babel/preset-env 智能预设来处理兼容性问题。它能将 ES6 的一些语法进行编译转换，比如箭头函数、点点点运算符等。但是如果是 async 函数、promise 对象、数组的一些方法（includes）等，它没办法处理。所以此时我们 js 代码仍然存在兼容性问题，一旦遇到低版本浏览器会直接报错。所以我们想要将 js 兼容性问题彻底解决。
 - `core-js` 是专门用来做 ES6 以及以上 API 的 `polyfill`。
@@ -1313,10 +1478,90 @@ npm i @babel/eslint-parser -D
 
 
 
-##### 离线服务
+##### 离线服务PWA
+
+(兼容性比较差)
+
+渐进式网络应用程序(progressive web application - PWA)：是一种可以提供类似于 native app(原生应用程序) 体验的 Web App 的技术。
+
+其中最重要的是，在 **离线(offline)** 时应用程序能够继续运行功能。
+
+内部通过 Service Workers 技术实现的
+
+1 .下载包
+
+```text
+npm i workbox-webpack-plugin -D
+```
+
+2 .修改配置文件
+
+```js
+const WorkboxPlugin = require("workbox-webpack-plugin");
+//插件
+    new WorkboxPlugin.GenerateSW({
+      // 这些选项帮助快速启用 ServiceWorkers
+      // 不允许遗留任何“旧的” ServiceWorkers
+      clientsClaim: true,
+      skipWaiting: true,
+    }),
+```
+
+3.修改main.js
+
+```js
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .then((registration) => {
+        console.log("SW registered: ", registration);
+      })
+      .catch((registrationError) => {
+        console.log("SW registration failed: ", registrationError);
+      });
+  });
+}
+```
 
 #### 总结
 
+我们从 4 个角度对 webpack 和代码进行了优化：
+
+1. 提升开发体验
+
+- 使用 `Source Map` 让开发或上线时代码报错能有更加准确的错误提示。
+
+1. 提升 webpack 提升打包构建速度
+
+- 使用 `HotModuleReplacement` 让开发时只重新编译打包更新变化了的代码，不变的代码使用缓存，从而使更新速度更快。
+- 使用 `OneOf` 让资源文件一旦被某个 loader 处理了，就不会继续遍历了，打包速度更快。
+- 使用 `Include/Exclude` 排除或只检测某些文件，处理的文件更少，速度更快。
+- 使用 `Cache` 对 eslint 和 babel 处理的结果进行缓存，让第二次打包速度更快。
+- 使用 `Thead` 多进程处理 eslint 和 babel 任务，速度更快。（需要注意的是，进程启动通信都有开销的，要在比较多代码处理时使用才有效果）
+
+1. 减少代码体积
+
+- 使用 `Tree Shaking` 剔除了没有使用的多余代码，让代码体积更小。
+- 使用 `@babel/plugin-transform-runtime` 插件对 babel 进行处理，让辅助代码从中引入，而不是每个文件都生成辅助代码，从而体积更小。
+- 使用 `Image Minimizer` 对项目中图片进行压缩，体积更小，请求速度更快。（需要注意的是，如果项目中图片都是在线链接，那么就不需要了。本地项目静态图片才需要进行压缩。）
+
+1. 优化代码运行性能
+
+- 使用 `Code Split` 对代码进行分割成多个 js 文件，从而使单个文件体积更小，并行加载 js 速度更快。并通过 import 动态导入语法进行按需加载，从而达到需要使用时才加载该资源，不用时不加载资源。
+- 使用 `Preload / Prefetch` 对代码进行提前加载，等未来需要使用时就能直接使用，从而用户体验更好。
+- 使用 `Network Cache` 能对输出资源文件进行更好的命名，将来好做缓存，从而用户体验更好。
+- 使用 `Core-js` 对 js 进行兼容性处理，让我们代码能运行在低版本浏览器。
+- 使用 `PWA` 能让代码离线也能访问，从而提升用户体验。
+
+## 项目
+
+### React
 
 
-## 进阶原理
+
+### Vue
+
+
+
+### 总结

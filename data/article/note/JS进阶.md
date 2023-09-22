@@ -361,7 +361,7 @@ const date_2=new Date('2023-5-24');
 
 
 
-### 进阶1
+### 进阶1-js机制
 
 ##### 作用域
 
@@ -381,6 +381,8 @@ const date_2=new Date('2023-5-24');
 
 ##### 闭包
 
+闭包（closure）是一个函数以及其捆绑的周边环境状态（lexical environment，词法环境）的引用的组合。换而言之，闭包让开发者可以从内部函数访问外部函数的作用域。在 JavaScript 中，闭包会随着函数的创建而被同时创建。
+
 ##### 变量提升
 
 ##### 箭头函数
@@ -397,9 +399,9 @@ foreach遍历数组
 
 
 
-### 进阶2
+### 进阶2-对象
 
-##### 深入对象
+##### 对象
 
 ###### 三种方式创建对象(构造函数)
 
@@ -426,13 +428,330 @@ obj_2.a='a';
 
 ![image-20230828155238978](JSAPI.assets/image-20230828155238978.png)
 
+###### 实例化执行过程
 
+构造函数执行时，发生了：
+
+1. 创建新对象
+2. 创造函数this指向新对象
+3. 执行构造函数代码，修改this，添加新的属性
+4. 返回新对象
+
+##### 实例成员和静态成员
+
+静态成员：构造函数的属性和方法被称为静态成员（静态属性和方法）
+
+![image-20230906144759528](JS进阶.assets/image-20230906144759528.png)
 
 ##### 内置构造函数
 
-### 进阶3
+###### 包装简单数据类型
+
+js底层会将基本数据类型包装成引用数据类型
+
+![image-20230906145831035](JS进阶.assets/image-20230906145831035.png)
+
+```js
+const str='aaa'
+//底层执行其实是包装成对象：
+const str=new String('aaa');
+```
+
+###### Object
+
+==静态方法==Object.keys(obj)返回属性名数组
+
+Object.values(obj) 返回对象的值数组
+
+![image-20230906150846573](JS进阶.assets/image-20230906150846573.png)
+
+![image-20230906150909971](JS进阶.assets/image-20230906150909971.png)
+
+Object.assign(obj_to,obj_from) 对象拷贝 ，常用于添加属性
+
+![image-20230906151857241](JS进阶.assets/image-20230906151857241.png)
+
+###### Array
+
+常见方法
+
+![image-20230906152237659](JS进阶.assets/image-20230906152237659.png)
+
+reduce方法
+
+![image-20230906153333499](JS进阶.assets/image-20230906153333499.png)
+
+![image-20230906153457568](JS进阶.assets/image-20230906153457568.png)
+
+其他
+
+![image-20230906153640361](JS进阶.assets/image-20230906153640361.png)
+
+![image-20230906153845792](JS进阶.assets/image-20230906153845792.png)
+
+
+
+###### String
+
+![image-20230906155325071](JS进阶.assets/image-20230906155325071.png)
+
+###### Number
+
+![image-20230906155412049](JS进阶.assets/image-20230906155412049.png)
+
+### 进阶3-原型链
+
+#### 编程思想
+
+面向过程：分析解决问题的步骤，然后用函数一步步实现
+
+- 性能好，适合和硬件联系紧密的东西
+- 前端比较多
+
+面向对象：将事务分解成对象，由对象间分工合作
+
+- 面向对象分工明确、灵活、代码可复用、易于维护开发，更适合多人合作的大型项目
+- 特性：封装、基础、多态
+
+#### 原型
+
+##### 构造函数
+
+![image-20230906161028060](JS进阶.assets/image-20230906161028060.png)
+
+![image-20230906161348557](JS进阶.assets/image-20230906161348557.png)
+
+##### 原型对象prototype
+
+解决构造函数浪费内存的问题
+
+![image-20230906162759883](JS进阶.assets/image-20230906162759883.png)
+
+```js
+fucntion ObjFun(){}
+ObjFun.prototype.fun=function(){}
+```
+
+原型对象，挂载在构造函数上，共享方法
+
+构造函数、原型对象里的函数里的this都是指向实例对象
+
+###### constructor
+
+构造器，原型对象里的属性，指向构造函数
+
+```js
+fucntion ObjFun(){}
+ObjFun.prototype={
+    sing:function(){},
+    dance:function(){},
+}
+//这种情况下，包括constructor的其他方法都没有了
+```
+
+
+
+```js
+fucntion ObjFun(){}
+ObjFun.prototype={
+    sing:function(){},
+    dance:function(){},
+    ...ObjFun.prototype
+}
+//解构
+```
+
+##### 对象原型`__proto__`
+
+对象原型：实例对象里指向原型对象的属性。==非JS标准属性==，谷歌浏览器（最新）显示为[[prototype]]
+
+![image-20230906183715118](JS进阶.assets/image-20230906183715118.png)
+
+==对象原型只能读，不能改==
+
+对象原型里也有一个constructor属性
+
+
+
+由于对象里有`__proto__`属性，实例对象能够访问原型对象
+
+##### 关系图
+
+![image-20230906184803421](JS进阶.assets/image-20230906184803421.png)
+
+#### 原型继承
+
+```js
+function Person(){}//父
+function Man(){}//子
+//通过原型继承
+Man.prototype=Pserson.prototype;
+//指回原来的构造函数
+Man.prototype.constructor=Man;
+```
+
+上述写法的缺点：子类都使用了同一个原型对象，根据引用类型的特点，他们指向同一个对象，修改一个都会收到影响
+
+```js
+//用构造函数实例化对象，结构一样，但不是同一个对象
+function Person(){}//父
+function Man(){}//子
+Man.prototype=new Person();
+Man.prototype.constructor=Man;
+```
+
+#### 原型链
+
+ ```js
+ function Person();
+ Person.prototype.__proto__;//原型对象里，也有对应的对象原型。
+ //指向Object.prototype
+ 
+ Object.prototype.__proto__;
+ //指向null
+ ```
+
+基于原型对象的继承使得不同构造函数的原型对象关联在一起，并且这种关联的关系是一种链状结构
+
+![image-20230908133816325](JS进阶.assets/image-20230908133816325.png)
+
+![image-20230908134555896](JS进阶.assets/image-20230908134555896.png)
+
+```js
+const person=new Person()
+console.log(person instanceof Person);
+console.log([] instanceof Array);
+console.log(Array instanceof Object);
+```
+
+
+
+
+
+
+
+
 
 ### 进阶4
+
+#### 深浅拷贝
+
+针对引用数据类型。
+
+
+
+##### 浅拷贝
+
+常见方法：
+
+- 拷贝对象`Object.assign(o,obj);//类似于展开运算符`
+- 拷贝数组`arr.concat(arr1);//类似于展开运算符`
+
+问题：成员如果是引用数据类型，只拷贝地址
+
+<img src="JS进阶.assets/image-20230908141908041.png" alt="image-20230908141908041" style="zoom:50%;" />
+
+##### 深拷贝
+
+1.手写递归函数
+
+<img src="JS进阶.assets/image-20230908142102256.png" alt="image-20230908142102256" style="zoom:67%;" />
+
+<img src="JS进阶.assets/image-20230908142712947.png" alt="image-20230908142712947" style="zoom: 50%;" />
+
+2.调用库函数
+
+loadsh库
+
+浏览器环境：
+
+```js
+<script src="lodash.js"></script>
+```
+
+通过 npm：
+
+```bash
+$ npm i -g npm
+$ npm i --save lodash
+```
+
+语法
+
+```js
+const o=_.cloneDeep(obj);
+```
+
+3.利用JSON字符串转换
+
+```js
+JSON.prase(JSON.stringify(obj))
+```
+
+#### 异常处理
+
+用于提升代码运行的健壮性
+
+##### throw
+
+![image-20230908145830598](JS进阶.assets/image-20230908145830598.png)
+
+##### try/catch/finally
+
+略
+
+##### debugger
+
+js关键字，类似于打断点。
+
+#### this
+
+##### this指向
+
+普通函数：this指向调用者。没有明确调用者时，普通模式下指向window，严格模式下为undefined
+
+```js
+//开启严格模式
+use strict
+```
+
+箭头函数：没有自己的this，是声明函数时绑定最近作用域中的this
+
+<img src="JS进阶.assets/image-20230908151959380.png" alt="image-20230908151959380" style="zoom: 67%;" />
+
+##### 改变this
+
+###### 1.call
+
+使用call方法调用函数，同时改变函数中this的指向（call用得少）
+
+```js
+fun.call(this值,函数参数)
+```
+
+返回值就是函数的返回值
+
+###### 2.apply
+
+```js
+fun.apply(this值,[函数参数]);//函数参数必须放到数组里
+```
+
+<img src="JS进阶.assets/image-20230908153043655.png" alt="image-20230908153043655" style="zoom:67%;" />
+
+<img src="JS进阶.assets/image-20230908154107407.png" alt="image-20230908154107407" style="zoom:67%;" />
+
+###### 3.bind
+
+不调用函数，但是改变函数内部this的指向
+
+```js
+const newFun=fun.bind(newThis);//不调用,返回一个新函数
+```
+
+
+
+#### 节流、防抖
 
 ##### 防抖
 
@@ -445,7 +764,7 @@ obj_2.a='a';
 使用lodash库提供的夯实实现防抖
 
 ```js
-//program
+//program 
 _.debounce(函数,毫秒数);
 //eg
 box.addEventListener('mousemove',_.debounce(()=>{},1000));
