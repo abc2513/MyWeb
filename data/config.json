@@ -21,10 +21,10 @@
                         },
                         "school-transiform":{
                             "title":"智能交通系统",
-                            "fileName":"智能交通系统.html"
+                            "fileName":"智能交通系统.md"
                         },
                         "game-team":{
-                            "title":"游戏开发社团网站",
+                            "title":"游戏社团网站（全栈）",
                             "fileName":"游戏社团网站.md"
                         }
                     }
@@ -34,11 +34,11 @@
                     "articles":{
                         "cfpp":{
                             "title":"React个人网站",
-                            "fileName":"React个人网站.md"
+                            "fileName":"React个人网站.html"
                         },
                         "fthtq":{
                             "title":"简易天气网站",
-                            "fileName":"发条花天气.html"
+                            "fileName":"发条花天气.md"
                         },
                         "navitour":{
                             "title":"scss进阶-Natours",
@@ -122,7 +122,7 @@
                             "fileName":"JS设计模式.md"
                         },
                         "ts":{
-                            "title":"TypeScript",
+                            "title":"TS_入门",
                             "fileName":"TS笔记.md"
                         }
                     }
@@ -196,7 +196,7 @@
                     "articles":{
                         "java":{
                             "title":"Java",
-                            "fileName":"Java学习笔记.md"
+                            "fileName":"java学习笔记.html"
                         },
                         "mysql":{
                             "title":"MySQL",

@@ -22,12 +22,6 @@
 
 
 
-#### 访问网页
-
-<iframe name="footer" marginwidth=0 marginheight=0 width=100% height=500px src="http://localhost:3000/" frameborder=1>
-</iframe>
-
-
 
 #### 网页截图
 
