@@ -156,6 +156,10 @@
                             "title":"Web性能优化",
                             "fileName":"Web性能优化.md"
                         },
+                        "mobile-performance":{
+                            "title":"移动端适配",
+                            "fileName":"移动端适配.md"
+                        },
                         "git":{
                             "title":"Git",
                             "fileName":"Git学习笔记.md"
@@ -176,6 +180,10 @@
                         "pixiJs":{
                             "title":"PixiJS",
                             "fileName":"PixiJS.md"
+                        },
+                        "threeJs":{
+                            "title":"ThreeJS",
+                            "fileName":"ThreeJS.md"
                         },
                         "svg":{
                             "title":"SVG",

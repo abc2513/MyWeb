@@ -1,4 +1,4 @@
-# Web性能优化
+# Web性能优化 1
 
 https://developer.mozilla.org/zh-CN/docs/learn/Performance
 
@@ -395,10 +395,330 @@ http1.1默认开启
 
 ![image-20230909152409773](Web性能优化.assets/image-20230909152409773.png)
 
-
-
-
-
-
-
 #### 避免重定向
+
+# Web性能优化 2：Web Performance Optimization
+
+## 开始
+
+#### 手机链接调试
+
+手机打开USB调试。手机和电脑都使用谷歌浏览器
+
+电脑打开inspect
+
+![image-20230909094137613](Web性能优化.assets/image-20230909094137613.png)
+
+## web生命周期/关键呈现路径
+
+### DOM 文档对象模型
+
+获取html并开始构建文档对象模型，获取CSS并构建CSS对象模型。将二者相结合，创建渲染树，形成布局，然后将像素显示
+
+访问一个URL，浏览器就会向服务器发送一个请求
+
+（命令行窗口：`curl xxxurl`）
+
+HTML规范包含了
+
+规定如何接收数据，根据<标签，使用令牌生成器生成令牌，同时另一个工作是消耗令牌并转化为节点对象，最后生成文档对象模型（DOM树）
+
+![image-20230909094952494](Web性能优化.assets/image-20230909094952494.png)
+
+![image-20230909095002863](Web性能优化.assets/image-20230909095002863.png)
+
+浏览器会逐步构建DOM，可以利用这一点
+
+google：逐步交付内容
+
+<img src="Web性能优化.assets/image-20230909095131350.png" alt="image-20230909095131350" style="zoom:33%;" />
+
+使用开发者工具-时间轴，查看加载时发生的事件
+
+
+
+<img src="Web性能优化.assets/image-20230909153057028.png" alt="image-20230909153057028" style="zoom:33%;" />
+
+### CSSOM 叠层样式对象模型
+
+样式有些会继承
+
+<img src="Web性能优化.assets/image-20230909153255800.png" alt="image-20230909153255800" style="zoom:33%;" />
+
+### Render Tree 渲染树
+
+将DOM和CSSOM结合
+
+从DOM根开始，检索是否有匹配的css样式。然后向下检索其他DOM节点
+
+遇到display：none跳过子节点
+
+<img src="Web性能优化.assets/image-20230909153914659.png" alt="image-20230909153914659" style="zoom: 33%;" />
+
+### Layout 布局过程
+
+<img src="Web性能优化.assets/image-20230925223428254.png" alt="image-20230925223428254" style="zoom:80%;" />
+
+<img src="Web性能优化.assets/image-20230925223453909.png" alt="image-20230925223453909" style="zoom:50%;" />
+
+如果布局视口的尺寸更改了 ，浏览器需要重新运行布局步骤（旋转手机或者调整浏览器大小）。修改样式或更新内容导致更新渲染树时，就可能重新运行布局步骤。
+
+优化：批量更新，避免出现多个布局事件
+
+在谷歌时间轴中查看，只选中渲染Render事件
+
+<img src="Web性能优化.assets/image-20230925223755890.png" alt="image-20230925223755890" style="zoom: 25%;" />
+
+### Paint 绘制像素
+
+<img src="Web性能优化.assets/image-20230925224400554.png" alt="image-20230925224400554" style="zoom: 33%;" />
+
+（回顾：网页性能的基本原则，先衡量，再优化）
+
+更新渲染树时，除了重新布局步骤，浏览器会重新绘制最小的请求区域
+
+### 小结 呈现内容关键步骤 Critical Rendering Path
+
+关键路径：
+
+1. 请求HTML文档
+2. 解析HTML、构建DOM（可以逐步构建，不是一次性出现。
+3. 请求在head里发现的CSS和JS
+4. 解析CSS、构建CSSOM
+5. （3完成后）取消屏蔽JS引擎，执行JS
+6. 合并DOM和CSSOM成RenderTree
+7. 计算布局
+8. 绘制页面
+
+<img src="Web性能优化.assets/image-20230925225555881.png" alt="image-20230925225555881" style="zoom:33%;" />
+
+CSS的优化：删除空白字符减少解析、最后集成到一个文件减少请求
+
+
+
+## 优化
+
+### Optimizing The DOM
+
+1. 移除注释：html、css、js注释，没必要展示给浏览器
+2. 压缩文件
+3. 浏览器缓存
+
+### Unblocking CSS
+
+删除不必要的样式
+
+运行灯塔时，会推荐查看阻止呈现的CSS
+
+<img src="Web性能优化.assets/image-20230925230909815.png" alt="image-20230925230909815" style="zoom:33%;" />
+
+CSS对特定范围应用样式，如媒体查询。写在同一个CSS文件中时，解析过程中会阻止页面的呈现。
+
+<img src="Web性能优化.assets/image-20230925231125028.png" alt="image-20230925231125028" style="zoom: 50%;" />
+
+优化：把print的媒体查询移动到单独的文件，并添加media，这样浏览器仍会下载样式表，但不会对print对应的css阻止呈现
+
+<img src="Web性能优化.assets/image-20230925231324209.png" alt="image-20230925231324209" style="zoom: 50%;" />
+
+复杂的断点同样适用
+
+<img src="Web性能优化.assets/image-20230925231527942.png" alt="image-20230925231527942" style="zoom:33%;" />
+
+
+
+### Optimizing JS
+
+缩小、压缩、缓存文件
+
+灯塔中提出了解析器屏蔽脚本：
+
+
+
+解析DOM过程中遇到了JS标记，会暂停DOM解析构建，JS运行完才能继续构建
+
+<img src="Web性能优化.assets/image-20230925231931338.png" alt="image-20230925231931338" style="zoom:50%;" />
+
+移入外部JS文件：会停止解析，等待获取
+
+<img src="Web性能优化.assets/image-20230925232057089.png" alt="image-20230925232057089" style="zoom:33%;" />
+
+内联的JS减少了请求次数，但是可能无法复用，有时候需要衡量
+
+CSS的解析会阻止呈现并阻止执行JS（优化CSS非常重要
+
+<img src="Web性能优化.assets/image-20230925232420005.png" alt="image-20230925232420005" style="zoom: 50%;" />
+
+优化：内联CSS
+
+---
+
+
+有些JS不修改DOM、CSSOM的脚本，不应该阻止呈现
+
+- 在网页加载后（onload事件发生后），再去加载脚本
+- 或者在JS标签添加async属性即可，告诉浏览器遇到这个js标签时无需阻止DOM树构建过程、脚本不会被CSS对象模型阻止。
+  - 但是内联脚本始终会被CSS阻止，除非把JS标签放在CSS标签上方
+
+
+---
+
+三者的对比
+
+<img src="Web性能优化.assets/image-20230925233954540.png" alt="image-20230925233954540" style="zoom: 50%;" />
+
+### General Strategies 一般策略
+
+
+
+1. 减少、压缩、缓存
+2. 减少CSS的阻止渲染
+   1. 在样式的link标签使用媒体查询
+   2. 内联CSS
+3. 减少JS的阻止解析
+   1. 在页面加载完成后加载1JS
+   2. async的JS标签
+
+特点：
+
+1. 减少网络传输量
+2. 从呈现的关键路径中移除非关键内容
+3. 缩短呈现关键路径（减少关键资源
+
+<img src="Web性能优化.assets/image-20230925234758403.png" alt="image-20230925234758403" style="zoom:33%;" />
+
+#### 缩短关键路径
+
+---
+
+关键路径只有一个html的情况
+
+理想情况下关键路径只有一次请求，但是网页比较大（>14KB）可能会多次请求
+
+<img src="Web性能优化.assets/image-20230925235005898.png" alt="image-20230925235005898" style="zoom:50%;" />
+
+---
+
+关键路径里有html+css的情况
+
+2个关键资源、2次关键请求
+
+<img src="Web性能优化.assets/image-20230925235304872.png" alt="image-20230925235304872" style="zoom: 50%;" />
+
+使用内联CSS的话，2个关键资源，1次关键请求
+
+---
+
+被JS阻塞的情况
+
+3个关键资源，2次关键路径长度（浏览器可以同时下载JS和CSS这两个，所以关键路径长度不变
+
+<img src="Web性能优化.assets/image-20230925235640129.png" alt="image-20230925235640129" style="zoom: 50%;" />
+
+
+
+<img src="Web性能优化.assets/image-20230926000540978.png" alt="image-20230926000540978" style="zoom:50%;" />
+
+---
+
+优化后的情况
+
+<img src="Web性能优化.assets/image-20230926000905534.png" alt="image-20230926000905534" style="zoom: 67%;" />
+
+预加载扫描机制：即使DOM的构建被block，浏览器仍会扫描并获取需要加载的资源
+
+<img src="Web性能优化.assets/image-20230926001206624.png" alt="image-20230926001206624" style="zoom: 50%;" />
+
+---
+
+示例2
+
+<img src="Web性能优化.assets/image-20230926001513175.png" alt="image-20230926001513175" style="zoom: 67%;" />
+
+
+
+### Final Project
+
+使关键路径尽可能地短
+
+<img src="Web性能优化.assets/image-20230926002114849.png" alt="image-20230926002114849" style="zoom:50%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
