@@ -167,6 +167,10 @@
                         "eslint":{
                             "title":"ESLint",
                             "fileName":"ESLint笔记.md"
+                        },
+                        "devops":{
+                            "title":"DevOps",
+                            "fileName":"DevOps.md"
                         }
                     }
                 },
@@ -223,6 +227,10 @@
                 "other":{
                     "title":"其他",
                     "articles":{
+                        "zssf":{
+                            "title":"噪声算法",
+                            "fileName":"噪声算法.md"
+                        }
                     }
                 }
             }

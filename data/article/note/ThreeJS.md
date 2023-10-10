@@ -1,6 +1,6 @@
 # ThreeJS
 
-### 关于WebGL和ThreeJS
+### 02 关于WebGL和ThreeJS
 
 WebGL
 
@@ -26,7 +26,7 @@ ThreeJS
 
 ![image-20230926233027317](ThreeJS.assets/image-20230926233027317.png)
 
-### 基本场景
+### 03 基本场景
 
 ```js
 import { useEffect, useRef } from 'react';
@@ -76,7 +76,7 @@ export default App;
 
 
 
-### 3d物体基本属性
+### 05 3d物体基本属性
 
 ```js
     //AxesHelper：坐标轴辅助工具，新版本叫AxisHelper
@@ -131,7 +131,7 @@ export default App;
 
 
 
-### 动画
+### 06 动画
 
 ![image-20230927114146962](ThreeJS.assets/image-20230927114146962.png)
 
@@ -169,22 +169,190 @@ export default App;
 
 
 
-### 相机
+### 07 相机
 
 #### 控件
 
-### 屏幕宽度（暂时略过）
+### 08 屏幕宽度（暂时略过）
 
-### 几何
+### 09 几何体
 
-### debugUI
+### 10 debugUI
 
 
 
 ![image-20230928143530679](ThreeJS.assets/image-20230928143530679.png)
 
-### 纹理/贴图
+### 11 纹理/贴图
 
 ![image-20230929102236110](ThreeJS.assets/image-20230929102236110.png)
 
 ![image-20230929102219992](ThreeJS.assets/image-20230929102219992.png)
+
+### 12 Material 材料
+
+### 13 3D文本
+
+### 15 Light 光照
+
+### 16 Shadow应用
+
+### 18 Particle 粒子
+
+### 19 Galaxy 射线
+
+### 20 滚动基本动画
+
+### 21 物理
+
+### 22 导入模型
+
+### 23
+
+### 24 
+
+### 25 真实的渲染
+
+
+
+### 27 Shader 着色器
+
+https://threejs.org/docs/index.html#api/zh/materials/ShaderMaterial
+
+- shader是用GLSL语言写的程序，由GPU执行
+- 定位几何图形的顶点
+- 为每一个可见像素（片段）着色
+
+向shader提供的数据：顶点坐标、网格变换、相机信息、颜色、纹理、光照、Fog、其他
+
+![image-20231009155423550](ThreeJS.assets/image-20231009155423550.png)
+
+##### 两种shader
+
+- 顶点着色器
+- 片段着色器
+
+
+
+顶点着色器
+
+定位几何体的每一个顶点
+
+![image-20231009155708200](ThreeJS.assets/image-20231009155708200.png)
+
+<img src="ThreeJS.assets/image-20231009160710262.png" alt="image-20231009160710262" style="zoom:50%;" />
+
+<img src="ThreeJS.assets/image-20231009160733805.png" alt="image-20231009160733805" style="zoom:50%;" />
+
+片段着色器
+
+![image-20231009160758131](ThreeJS.assets/image-20231009160758131.png)
+
+<img src="ThreeJS.assets/image-20231009161439717.png" alt="image-20231009161439717" style="zoom:50%;" />
+
+##### 写shader的原因
+
+- 减少限制
+- 简单+性能
+- 后期处理
+
+![image-20231009161704728](ThreeJS.assets/image-20231009161704728.png)
+
+使用THREE.RawShaderMaterial材料
+
+##### glsl文件
+
+直接写入js代码，没有语法高亮。
+
+```js
+const material = new THREE.RawShaderMaterial({
+    vertexShader: `
+        uniform mat4 projectionMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 modelMatrix;
+        attribute vec3 position;
+        void main(){
+          gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position,1.0);
+        }
+      `,
+    fragmentShader: `
+        precision mediump float;
+        void main(){
+          gl_FragColor = vec4(1.0,0.0,0.0,1.0);
+        }
+      `,
+});
+```
+
+<img src="ThreeJS.assets/image-20231009165338941.png" alt="image-20231009165338941" style="zoom: 67%;" />
+
+解决：
+
+- 使用glsl文件，并为vscode安装shader拓展Shader languages support for VS Code。开发环境需要添加对glsl文件的支持![image-20231009165533336](ThreeJS.assets/image-20231009165533336.png)
+- 使用vscode拓展Comment target templates，使字符串里的代码能高亮显示<img src="ThreeJS.assets/image-20231009165316113.png" alt="image-20231009165316113" style="zoom:67%;" />
+
+
+
+glsl加载器：[博客链接](https://blog.csdn.net/jieyucx/article/details/131922868#:~:text=%E5%A6%82%E6%9E%9C%E4%BD%A0%E6%83%B3%E8%AE%A9Vue%E9%A1%B9%E7%9B%AE%E6%94%AF%E6%8C%81GLSL%EF%BC%88OpenGL%E7%9D%80%E8%89%B2%E8%AF%AD%E8%A8%80%EF%BC%89%E8%AF%AD%E6%B3%95%EF%BC%8C%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E7%89%B9%E6%AE%8A%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%99%A8%E4%BD%BFWebpack%E8%83%BD%E5%A4%9F%E5%8A%A0%E8%BD%BD%E5%92%8C%E8%A7%A3%E6%9E%90GLSL%E6%96%87%E4%BB%B6%E3%80%82%20glslify-loader,%E4%BC%9A%E5%A4%84%E7%90%86%E5%BC%95%E5%85%A5%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E6%82%A8%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E5%9C%A8%20WebGL%20%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BD%BF%E7%94%A8%E8%BF%99%E4%BA%9B%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%82)
+
+数据类型
+
+运算
+
+内置函数
+
+![image-20231009210119728](ThreeJS.assets/image-20231009210119728.png)
+
+![image-20231009210147007](ThreeJS.assets/image-20231009210147007.png)
+
+- main函数：自动调用
+- gl_position：
+  - vec4类型
+  - 原来就存在
+  - 需要赋值
+  - 包含屏幕上点的位置
+
+![image-20231009210900832](ThreeJS.assets/image-20231009210900832.png)
+
+- attribute vec3 position
+
+  - 提供position属性
+  - vec3，xyz
+  - eg`gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position,1.0);`
+
+- 三个变换矩阵
+
+  - 
+
+  ![image-20231009211412308](ThreeJS.assets/image-20231009211412308.png)
+
+![image-20231009211555993](ThreeJS.assets/image-20231009211555993.png)
+
+
+
+![image-20231009213956325](ThreeJS.assets/image-20231009213956325.png)
+
+
+
+柏林噪声函数
+
+<img src="ThreeJS.assets/image-20231010222632471.png" alt="image-20231010222632471" style="zoom:67%;" />
+
+### 27  shaderPatterns着色器绘制模式
+
+![image-20231010105208158](ThreeJS.assets/image-20231010105208158.png)
+
+![image-20231010105511403](ThreeJS.assets/image-20231010105511403.png)
+
+![image-20231010105520165](ThreeJS.assets/image-20231010105520165.png)
+
+
+
+- 着色器材质(ShaderMaterial)使用自定义shader渲染的材质。 shader是一个用GLSL编写的小程序 ，在GPU上运行
+
+- 原始着色器材质(RawShaderMaterial)：此类的工作方式与ShaderMaterial类似，不同之处在于内置的uniforms和attributes的定义不会自动添加到GLSL shader代码中。 
+
+### 28 
+
+### 29 
+
