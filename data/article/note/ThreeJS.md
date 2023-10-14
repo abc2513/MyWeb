@@ -207,9 +207,29 @@ export default App;
 
 ### 22 导入模型
 
-### 23
+### 24 使用 Blender 建模
 
-### 24 
+https://www.blender.org/
+
+![image-20231011163333894](ThreeJS.assets/image-20231011163333894.png)
+
+![image-20231011163503721](ThreeJS.assets/image-20231011163503721.png)
+
+新建视图
+
+<img src="ThreeJS.assets/image-20231011164759343.png" alt="image-20231011164759343" style="zoom: 33%;" />
+
+<img src="ThreeJS.assets/image-20231011164839622.png" alt="image-20231011164839622" style="zoom: 33%;" />
+
+简单的几个操作
+
+- 滚轮
+- shift+滚轮
+- shift+c 回到场景中心
+
+<img src="ThreeJS.assets/image-20231011182444948.png" alt="image-20231011182444948" style="zoom:50%;" />
+
+
 
 ### 25 真实的渲染
 
@@ -356,3 +376,29 @@ glsl加载器：[博客链接](https://blog.csdn.net/jieyucx/article/details/131
 
 ### 29 
 
+### 30 Blender 创建场景
+
+<img src="ThreeJS.assets/image-20231012155217340.png" alt="image-20231012155217340" style="zoom:50%;" />
+
+![image-20231012155324338](ThreeJS.assets/image-20231012155324338.png)
+
+WebGL中不使用光线追踪，而是在3D软件中渲染好再导出
+
+![image-20231012155822193](ThreeJS.assets/image-20231012155822193.png)
+
+步骤
+
+![image-20231012155956989](ThreeJS.assets/image-20231012155956989.png)
+
+结果
+
+![image-20231012233720989](ThreeJS.assets/image-20231012233720989.png)
+
+### 31 Baking
+
+![image-20231012233751390](ThreeJS.assets/image-20231012233751390.png)
+
+- 删掉所有不可见的面
+- 修复翻转的面
+
+<img src="ThreeJS.assets/image-20231013220312041.png" alt="image-20231013220312041" style="zoom:50%;" />
