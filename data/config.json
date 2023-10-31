@@ -95,7 +95,7 @@
             "title":"笔记",
             "folders":{
                 "front-base":{
-                    "title":"前端基础",
+                    "title":"CSS",
                     "articles":{
                         "css":{
                             "title":"CSS进阶+Sass",
@@ -105,6 +105,19 @@
                             "title":"CSS_3D",
                             "fileName":"css3d.md"
                         },
+                        "css_module":{
+                            "title":"CSS模块化",
+                            "fileName":"CSS模块化.md"
+                        },
+                        "mobile-performance":{
+                            "title":"移动端适配",
+                            "fileName":"移动端适配.md"
+                        }
+                    }
+                },
+                "JavaScript":{
+                    "title":"JS",
+                    "articles":{
                         "es6":{
                             "title":"JS_ES6+",
                             "fileName":"JS-ES6.html"
@@ -138,11 +151,6 @@
                             "title":"React",
                             "fileName":"react笔记.md"
                         },
-                        "webpack":{
-                            "title":"Webpack",
-                            "fileName":"webpack笔记.html"
-                        
-                        },
                         "redux":{
                             "title":"Redux",
                             "fileName":"Redux学习笔记.md"
@@ -150,23 +158,31 @@
                     }
                 },
                 "front-project":{
-                    "title":"项目",
+                    "title":"工程化",
                     "articles":{
                         "web-performance":{
                             "title":"Web性能优化",
                             "fileName":"Web性能优化.md"
                         },
-                        "mobile-performance":{
-                            "title":"移动端适配",
-                            "fileName":"移动端适配.md"
+                        "web-safe":{
+                            "title":"前端安全",
+                            "fileName":"前端安全.md"
                         },
-                        "git":{
-                            "title":"Git",
-                            "fileName":"Git学习笔记.md"
+                        "webpack":{
+                            "title":"Webpack笔记",
+                            "fileName":"webpack笔记.html"
                         },
                         "eslint":{
                             "title":"ESLint",
                             "fileName":"ESLint笔记.md"
+                        },
+                        "package":{
+                            "title":"包管理工具",
+                            "fileName":"包管理工具.md"
+                        },
+                        "git":{
+                            "title":"Git",
+                            "fileName":"Git学习笔记.md"
                         },
                         "devops":{
                             "title":"DevOps",
@@ -212,11 +228,11 @@
                         },
                         "mysql":{
                             "title":"MySQL",
-                            "fileName":"MySQL笔记.md"
+                            "fileName":"MySQL.md"
                         },
                         "nodejs":{
                             "title":"Node.js",
-                            "fileName":"NodeJS笔记.md"
+                            "fileName":"NodeJS.md"
                         },
                         "linux":{
                             "title":"Linux",
