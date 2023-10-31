@@ -41,8 +41,6 @@ document.getElementsByTagName('box')
 document.body
 ```
 
-
-
 ##### 操作元素内容
 
 - innerText：识别文本，不解析标签
@@ -303,11 +301,22 @@ const date_2=new Date('2023-5-24');
 
 ![image-20230810211259137](JSAPI.assets/image-20230810211259137.png)
 
-### Windows对象
+### Window对象
 
 ##### 浏览器对象模型BOM
 
 ![image-20230810212117992](JSAPI.assets/image-20230810212117992.png)
+
+window
+
+- 引用对象
+  - navigator：可以用于请求运行当前代码的应用程序的相关信息。
+  - location：包含有关文档当前位置的信息
+  - document
+  - history
+  - screen
+
+
 
 
 
@@ -330,8 +339,6 @@ const date_2=new Date('2023-5-24');
 ![image-20230810215728550](JSAPI.assets/image-20230810215728550.png)
 
 ![image-20230810215748573](JSAPI.assets/image-20230810215748573.png)
-
-
 
 ##### navigator对象
 
@@ -488,8 +495,6 @@ reduce方法
 ![image-20230906153640361](JS进阶.assets/image-20230906153640361.png)
 
 ![image-20230906153845792](JS进阶.assets/image-20230906153845792.png)
-
-
 
 ###### String
 
@@ -776,10 +781,12 @@ box.addEventListener('mousemove',_.debounce(()=>{},1000));
 
 核心是利用setTimeout定时器
 
-1. 声明一个定时器变量
-2. 每次触发都判断是否有定时器，有的话先清除
-3. 开启定时器
-4. 定时器回调函数
+1. 写一个闭包，防抖包装的函数传入要被限流的函数和时间
+2. 声明一个定时器变量
+3. 返回这样一个函数：
+4. ~~每次触发都判断是否有定时器，有的话先清除~~     调用函数时，如果有定时器，就先清除定时器
+5. 然后无论刚才的判断结果，设置这个定时器变量，回调是执行函数
+6. 定时器回调函数
 
 ```js
 function myDebounce(fn,t){
@@ -787,7 +794,7 @@ function myDebounce(fn,t){
     return function(){
         //234
         if(timer) clearTimeout(timer);
-        setTimeout(fn(),t);
+        timer=setTimeout(fn(),t);
     };
 }
 box.addEventListener('mousemove',myDebounce(()=>{},1000));
@@ -811,13 +818,17 @@ _.throttle(fun,wait)
 
 ###### 手动实现
 
+- 同样是一个定时器变量
+- 函数调用时，如果定时器变量为null，函数就执行，并将定时器设置回调为清除定时器变量
+  - 如果定时器变量不是null，就啥也不做
+
 ```js
 function myThrottle(fn,t){
     let timer=null;
     return function(){
         if(!timer){
+            fn();
             timer=setTimeout(()=>{
-            	fn();
                 timer=null;//不能clearTimeout，因为这里定时器还在运作，不能在定时器内部清除定时器
             },t);
         }

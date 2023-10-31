@@ -23,20 +23,20 @@
 ### 基本使用
 
 ```js
-const p=new Promise((resolve,reject)=>{
+const p=new Promise((resolve,reject)=>{//传入一个函数，参数里有resolve、reject
     //异步任务
     setTimeout(()=>{
         if(xxx)
-            resolve();//将对象状态设为成功
+            resolve();//调用参数里的resolve，将对象状态设为成功
         	//resolve(value)传递数据	
         else
-            reject();//将对象状态设为失败
+            reject();//调用参数里的reject将对象状态设为失败
         	//reject(reason)传递数据	
     },1000)
 })
 p.then(
-    ()=>{},//成功的处理(value)=>{}
-    ()=>{}//失败的处理(reason)=>{}
+    ()=>{},//第一个参数是成功的处理(value)=>{}
+    ()=>{}//第二个参数是失败的处理(reason)=>{}
 )
 ```
 
@@ -69,7 +69,14 @@ p.then(
 ```js
 //封装
 function mineReadFile(path){
-    return new Promise(xxx);
+    return new Promise((resolve,reject)=>{
+        const xhr=new XMLHttpRequest();
+        xhr.open(url);
+        xhr.onStageReadyChange=()=>{
+            
+        }
+        xhr.send();
+    });
 }
 //调用
 mineReadFile('xxx').then(
@@ -125,7 +132,7 @@ new Promise((resolve,reject)=>{
 
 ##### then()
 
-`Promise.prototype.then`，指定成功和失败的回调
+`Promise.prototype.then`，传入两个处理函数参数，指定成功和失败的回调
 
 ```js
 p.then(onResolved,onRejected)
@@ -234,7 +241,9 @@ throw/return null无效
 
 ```js
 p.then(value=>{
-    return new Promise(()=>{})
+    return new Promise(()=>{
+        //既没有执行resolve也没有reject
+    })
 }).then(value=>{
 }).then(value=>{
 }).then(value=>{
