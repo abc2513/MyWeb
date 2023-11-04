@@ -162,7 +162,7 @@
                     }
                 },
                 "front-project":{
-                    "title":"工程化",
+                    "title":"前端工程化",
                     "articles":{
                         "web-performance":{
                             "title":"Web性能优化",
@@ -216,6 +216,10 @@
                         "md":{
                             "title":"Markdown",
                             "fileName":"Markdown笔记.md"
+                        },
+                        "file":{
+                            "title":"文件上传",
+                            "fileName":"前端文件.md"
                         }
                     }
                 },
