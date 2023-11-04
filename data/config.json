@@ -13,7 +13,7 @@
                     }
                 },
                 "school-work":{
-                    "title":"参赛/校内项目",
+                    "title":"参赛项目",
                     "articles":{
                         "snow-field":{
                             "title":"雪原信息分析系统",
@@ -22,16 +22,16 @@
                         "school-transiform":{
                             "title":"智能交通系统",
                             "fileName":"智能交通系统.md"
-                        },
-                        "game-team":{
-                            "title":"游戏社团网站（全栈）",
-                            "fileName":"游戏社团网站.md"
                         }
                     }
                 },
                 "web-project-work":{
-                    "title":"Web DEMO",
+                    "title":"Web 个人作品",
                     "articles":{
+                        "game-team":{
+                            "title":"游戏社团网站（全栈）",
+                            "fileName":"游戏社团网站.md"
+                        },
                         "cfpp":{
                             "title":"React个人网站",
                             "fileName":"React个人网站.html"
@@ -55,7 +55,7 @@
                     }
                 },
                 "web-small-work":{
-                    "title":"Web练习",
+                    "title":"Web习作",
                     "articles":{
                         "syxt":{
                             "title":"实验数据处理WebApp",
@@ -116,7 +116,7 @@
                     }
                 },
                 "JavaScript":{
-                    "title":"JS",
+                    "title":"JavaScript",
                     "articles":{
                         "es6":{
                             "title":"JS_ES6+",
@@ -143,6 +143,10 @@
                 "front-kj":{
                     "title":"前端框架",
                     "articles":{
+                        "webpack":{
+                            "title":"Webpack笔记",
+                            "fileName":"webpack笔记.html"
+                        },
                         "vue":{
                             "title":"Vue",
                             "fileName":"Vue学习笔记.md"
@@ -167,10 +171,6 @@
                         "web-safe":{
                             "title":"前端安全",
                             "fileName":"前端安全.md"
-                        },
-                        "webpack":{
-                            "title":"Webpack笔记",
-                            "fileName":"webpack笔记.html"
                         },
                         "eslint":{
                             "title":"ESLint",
