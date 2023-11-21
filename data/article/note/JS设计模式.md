@@ -658,7 +658,9 @@ module模式使用了闭包封装“有“状态和组织。它提供了一种�
 
 
 
-### 命令模式（未学
+### 命令模式
+
+（松耦合，前端用得少）
 
 有时候需要向某些对象发送请求，但是并不知道请求的接收者是谁 ，也不知道被请求的操作是什么。需要以一种松耦合的方式来设计程序，使得发送者和接收者能消除彼此之间的耦合关系
 
@@ -670,6 +672,36 @@ module模式使用了闭包封装“有“状态和组织。它提供了一种�
 ```
 
 ![image-20230924162634512](JS设计模式.assets/image-20230924162634512.png)
+
+```js
+class Receiver{
+    //接受类
+    execute(){
+        console.log("接收者执行请求")
+    }
+}
+class Command{
+    //命令类
+    constructor(receiver){
+        this.receiver=receiver;//绑定接受类
+    }
+    execute(){
+        this.receiver.command();
+    }
+}
+class Invoker{
+    constructor(command){
+        this.command=command;//绑定命令类
+    }
+    order(){
+        this.command.execute();
+    }
+}
+```
+
+##### 宏
+
+
 
 
 

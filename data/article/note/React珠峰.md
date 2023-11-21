@@ -67,3 +67,71 @@ Vue：
 ### 9 函数组件的底层渲染机制
 
 ![image-20231103152653672](React珠峰.assets/image-20231103152653672.png)
+
+![image-20231110095550826](React珠峰.assets/image-20231110095550826.png)
+
+### 10 props的细节【】
+
+属性的校验规则
+
+![image-20231110100001220](React珠峰.assets/image-20231110100001220.png)
+
+### 11 react中的插槽处理机制
+
+children：数组/对象
+
+![image-20231110100247772](React珠峰.assets/image-20231110100247772.png)
+
+react需要自己实现插槽机制，vue有内置
+
+![image-20231110100505721](React珠峰.assets/image-20231110100505721.png)
+
+### 16 类组件渲染逻辑【】
+
+### 17 类组件更新逻辑【】
+
+![image-20231110102152176](React珠峰.assets/image-20231110102152176.png)
+
+
+
+
+
+### 49 样式私有化处理
+
+vue里可以为style标签设置scoped，react没有
+
+##### 基础方案
+
+###### 内联样式
+
+使用内联样式，不再使用样式和类名处理。简单、以React组件为中心
+
+- 不利于样式的复用。如果提取成共用样式对象，没有代码提示
+- 不能使用伪类、媒体查询、选择子元素
+- 样式和结构混淆，不利于优化
+
+内联样式可用于
+
+- 样式覆盖
+- 动态样式
+
+![image-20231110110524614](React珠峰.assets/image-20231110110524614.png)
+
+###### CSS类人为规范化类名
+
+路径+组件名作为最外层容器的类名，然后内部元素内嵌到外层容器下
+
+![image-20231110105351936](React珠峰.assets/image-20231110105351936.png)
+
+##### 使用CSSModule
+
+![ ](React珠峰.assets/image-20231110110632260.png)
+
+##### 使用ReactJSS
+
+```js
+import {createUseStyles}from 'react-jss';
+const useStyles=use
+```
+
+![image-20231110113454823](React珠峰.assets/image-20231110113454823.png)
